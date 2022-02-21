@@ -1,0 +1,22 @@
+FROM python:3.10.0-slim
+
+LABEL mantainer="Palenca Team <dev@palenca.com>"
+
+RUN apt-get update
+RUN apt-get install -y build-essential
+
+RUN mkdir -p /opt/api
+
+WORKDIR /opt/api
+
+ADD requirements requirements
+
+RUN pip install -r requirements/development.txt
+
+ENV ENVIRONMENT development
+ENV FLASK_ENV development
+ENV SENTRY_URI https://
+ENV POSTGRES_URI postgres://postgres:@host.docker.internal:5432/palenca_neue
+ENV PORT 9000
+
+EXPOSE 9000

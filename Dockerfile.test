@@ -1,0 +1,22 @@
+FROM python:3.9.0-slim
+
+LABEL mantainer="Palenca Team <dev@palenca.com>"
+
+RUN apt-get update
+RUN apt-get install -y build-essential
+
+RUN mkdir -p /opt/api
+
+WORKDIR /opt/api
+
+ADD requirements requirements
+
+RUN pip install -r requirements/testing.txt
+
+COPY . /opt/api
+
+ENV ENVIRONMENT testing
+ENV FLASK_ENV testing
+ENV POSTGRES_URI dummy
+
+CMD pytest

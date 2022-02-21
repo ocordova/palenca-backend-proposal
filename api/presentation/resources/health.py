@@ -1,5 +1,4 @@
-from dataclasses import dataclass
-from fastapi import status, APIRouter, Response
+from fastapi import status, APIRouter
 
 from ..responses.health import HealthResponse
 

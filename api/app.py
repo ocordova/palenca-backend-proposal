@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
 
 from .misc.env import is_production, is_staging, TORTOISE_ORM, Env
-from .presentation.resources import health
+from .presentation.resources import health, indriver
 
 
 def set_sentry() -> None:
@@ -12,6 +12,7 @@ def set_sentry() -> None:
 
 def set_resources(app: FastAPI) -> None:
     app.include_router(health.router)
+    app.include_router(indriver.router)
 
 
 def set_database(app: FastAPI) -> None:

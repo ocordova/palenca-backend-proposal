@@ -10,7 +10,7 @@ class ClientPostgres(models.Model):
     logo_name = fields.TextField()
     list_apps = fields.JSONField()
     webhook_url = fields.TextField()
-    extra_data = fields.JSONField()
+    extra_data = fields.JSONField(default={})
     list_of_countries = fields.JSONField()
     created_at = fields.DatetimeField(auto_now=True)
     updated_at = fields.DatetimeField(auto_now=True)
@@ -22,7 +22,7 @@ class ClientPostgres(models.Model):
 class UserPostgres(models.Model):
     id = fields.IntField(pk=True, index=True)
     user_id = fields.TextField()
-    extra_data = fields.JSONField()
+    extra_data = fields.JSONField(default={})
     client = fields.ForeignKeyField("models.ClientPostgres", related_name="client")
     created_at = fields.DatetimeField(auto_now=True)
     updated_at = fields.DatetimeField(auto_now=True)

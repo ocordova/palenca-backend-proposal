@@ -9,3 +9,7 @@ class BaseEmptySuccessResponse(BaseModel):
 class OTPSentSuccessfullyResponse(BaseEmptySuccessResponse):
     code: str = "otp_sent_successfully"
     message: str = "The OTP was sent to the device successfully"
+
+
+class HealthResponse(BaseModel):
+    status: str

@@ -11,5 +11,6 @@ class CountryCode(Enum):
 
 @unique
 class Platform(Enum):
+    CABIFY = "cabify"
     INDRIVER = "indriver"
     RAPPI = "rappi"

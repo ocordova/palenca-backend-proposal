@@ -63,6 +63,7 @@ class Environment:
     SENTRY_URI: str
     POSTGRES_URI: str
     PORT: int
+    DOCUMENTATION_URI: str
 
 
 Env = Environment(
@@ -70,6 +71,7 @@ Env = Environment(
     SENTRY_URI=os.environ["SENTRY_URI"],
     POSTGRES_URI=os.environ["POSTGRES_URI"],
     PORT=int(os.environ["PORT"]),
+    DOCUMENTATION_URI=os.environ["DOCUMENTATION_URI"],
 )
 
 TORTOISE_ORM = {

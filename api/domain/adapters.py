@@ -1,6 +1,5 @@
-from multiprocessing.connection import Client
-from ..data.models import UserPostgres, ClientPostgres
-from .entities import UserExtraData, User, Client
+from ..data.models import ClientPostgres, UserPostgres
+from .entities import Client, UserExtraData, User
 from .enums import Platform
 
 
@@ -20,9 +19,7 @@ def client_postgres_adapter(*, client: ClientPostgres) -> Client:
 
 
 def user_postgres_adapter(*, user: UserPostgres) -> User:
-
     client_extra_data = None
-
     if user.extra_data:
         client_extra_data = UserExtraData(
             redirect_url=user.get("redirect_url.redirect_url", None),

@@ -1,15 +1,13 @@
-from decimal import Decimal
-from marshmallow import EXCLUDE, Schema, fields
-from marshmallow_enum import EnumField
-from ..misc.marshmallow import PhoneField
+from pydantic import BaseModel
+from typing import Optional
 
 from ..domain.enums import CountryCode
+from ..misc.entities import PhoneNumber
 
 
-class IndriverCreateUserValidation(Schema):
-    user_id = fields.Str(required=True)
-    phone_number = PhoneField(required=True)
-    country = EnumField(CountryCode, required=True)
-
-    class Meta:
-        unknown = EXCLUDE
+class IndriverCreateBody(BaseModel):
+    user_id: str
+    country: CountryCode
+    phone_number: str
+    source: Optional[str] = None
+    # phone_number: PhoneNumber = Field(..., "Phone number of the indriver user account (e.g: 7295740734)" )

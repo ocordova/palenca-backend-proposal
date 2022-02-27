@@ -1,17 +1,15 @@
 import datetime
-from dataclasses import dataclass
+from pydantic import BaseModel
 from typing import Dict, List, Optional
 from .enums import Platform
 
 
-@dataclass
-class ClientExtraData:
+class ClientExtraData(BaseModel):
     redirect_url: Optional[str]
     sheet_id: Optional[str]
 
 
-@dataclass
-class Client:
+class Client(BaseModel):
     id: int
     email: str
     api_key: str
@@ -25,13 +23,11 @@ class Client:
     extra_data: Optional[ClientExtraData] = None
 
 
-@dataclass
-class UserExtraData:
+class UserExtraData(BaseModel):
     something: str
 
 
-@dataclass
-class User:
+class User(BaseModel):
     id: int
     user_id: str
     client: Client

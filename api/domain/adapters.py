@@ -9,7 +9,7 @@ def client_postgres_adapter(*, client: ClientPostgres) -> Client:
         email=client.email,
         api_key=client.api_key,
         company_name=client.company_name,
-        client_id=client.id,
+        client_id=client.client_id,
         logo_url=client.logo_name,
         platforms=list(map(lambda pt: Platform(pt), client.list_apps)),
         webhook_url=client.webhook_url,

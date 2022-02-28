@@ -1,7 +1,8 @@
-from tortoise import fields, models
+from tortoise import fields
+from tortoise.models import Model
 
 
-class ClientPostgres(models.Model):
+class ClientPostgres(Model):
     id = fields.IntField(pk=True, index=True)
     email = fields.TextField()
     api_key = fields.TextField()
@@ -19,7 +20,7 @@ class ClientPostgres(models.Model):
         table = "clients"
 
 
-class UserPostgres(models.Model):
+class UserPostgres(Model):
     id = fields.IntField(pk=True, index=True)
     user_id = fields.TextField()
     extra_data = fields.JSONField(default={})

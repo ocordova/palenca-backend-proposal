@@ -1,4 +1,4 @@
-FROM python:3.9.0-slim
+FROM python:3.1.0-slim
 
 LABEL mantainer="Palenca Team <dev@palenca.com>"
 
@@ -10,13 +10,13 @@ RUN mkdir -p /opt/api
 WORKDIR /opt/api
 
 ADD requirements requirements
-
+    
 RUN pip install -r requirements/testing.txt
 
 COPY . /opt/api
 
 ENV ENVIRONMENT testing
 ENV FLASK_ENV testing
-ENV POSTGRES_URI dummy
+ENV DATABASE_TEST_URL sqlite://:memory:
 
 CMD pytest

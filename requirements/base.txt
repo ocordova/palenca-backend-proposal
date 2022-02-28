@@ -1,7 +1,5 @@
 fastapi==0.74.0
-marshmallow==3.14.1
-marshmallow-enum==1.5.1
-tortoise-orm[asyncpg]==0.17.8
+tortoise-orm[asyncpg]==0.18.1
 requests==2.27.1
 sentry-sdk==1.5.5
 blinker==1.4
@@ -12,3 +10,4 @@ phonenumbers==8.12.43
 bcrypt==3.2.0
 aerich==0.6.2
 uvicorn==0.17.5
+asyncio==3.4.3

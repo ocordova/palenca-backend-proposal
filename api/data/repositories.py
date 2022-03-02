@@ -18,7 +18,7 @@ async def repo_get_client_by_api_key(*, api_key: str) -> Client:
     return client_postgres_adapter(client=client)
 
 
-async def repo_get_user_client_and_user(
+async def repo_get_user_by_client_and_user(
     *, client_id: int, user_id: str
 ) -> Optional[User]:
     user = await UserPostgres.get_or_none(

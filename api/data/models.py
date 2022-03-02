@@ -24,7 +24,9 @@ class UserPostgres(Model):
     id = fields.IntField(pk=True, index=True)
     user_id = fields.TextField()
     extra_data = fields.JSONField(default={})
-    client = fields.ForeignKeyField("models.ClientPostgres", related_name="client")
+    client: fields.ForeignKeyRelation[ClientPostgres] = fields.ForeignKeyField(
+        "models.ClientPostgres"
+    )
     created_at = fields.DatetimeField(auto_now=True)
     updated_at = fields.DatetimeField(auto_now=True)
 

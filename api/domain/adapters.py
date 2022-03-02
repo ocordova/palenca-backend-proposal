@@ -21,11 +21,7 @@ def client_postgres_adapter(*, client: ClientPostgres) -> Client:
 def user_postgres_adapter(*, user: UserPostgres) -> User:
     client_extra_data = None
     if user.extra_data:
-        client_extra_data = UserExtraData(
-            redirect_url=user.get("redirect_url.redirect_url", None),
-            sheet_id=user.get("redirect_url.sheet_id", None),
-        )
-
+        client_extra_data = UserExtraData(purpose=user.extra_data.get("purpose", None))
     return User(
         id=user.id,
         user_id=user.user_id,

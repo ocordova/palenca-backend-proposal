@@ -1,7 +1,7 @@
 import datetime
 from pydantic import BaseModel
 from typing import Dict, List, Optional
-from .enums import Platform
+from .enums import Platform, UserPurpose
 
 
 class ClientExtraData(BaseModel):
@@ -24,7 +24,7 @@ class Client(BaseModel):
 
 
 class UserExtraData(BaseModel):
-    something: str
+    purpose: Optional[UserPurpose] = None
 
 
 class User(BaseModel):

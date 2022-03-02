@@ -2,8 +2,8 @@ import datetime
 import factory
 from ..misc.tests import TortoiseModelFactory
 
-from .models import ClientPostgres
-from ..domain.enums import Platform, CountryCode
+from .models import ClientPostgres, UserPostgres
+from ..domain.enums import Platform, CountryCode, UserPurpose
 
 
 class ClientPostgresFaker(TortoiseModelFactory):
@@ -23,3 +23,20 @@ class ClientPostgresFaker(TortoiseModelFactory):
 
     class Meta:
         model = ClientPostgres
+
+
+class UserExtraDataPostgresFaker(factory.DictFactory):
+    purpose = UserPurpose.CHANGE_BANK_ACCOUNT.value
+
+
+class UserPostgresFaker(TortoiseModelFactory):
+
+    id = factory.Faker("random_int")
+    user_id = str(factory.Faker("uuid4"))[:8]
+    created_at = factory.LazyAttribute(lambda o: datetime.datetime.utcnow())
+    updated_at = factory.LazyAttribute(lambda o: datetime.datetime.utcnow())
+    extra_data = factory.SubFactory(UserExtraDataPostgresFaker)
+    client = factory.SubFactory(ClientPostgresFaker)
+
+    class Meta:
+        model = UserPostgres

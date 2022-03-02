@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from enum import Enum, IntEnum, unique
 
 
@@ -14,3 +13,8 @@ class Platform(Enum):
     CABIFY = "cabify"
     INDRIVER = "indriver"
     RAPPI = "rappi"
+
+
+@unique
+class UserPurpose(Enum):
+    CHANGE_BANK_ACCOUNT = "change_bank_account"

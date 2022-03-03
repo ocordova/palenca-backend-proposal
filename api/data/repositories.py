@@ -33,5 +33,5 @@ async def repo_get_user_by_client_and_user(
 
 async def repo_create_user(*, client: Client, user_id: str) -> User:
     user = await UserPostgres.create(user_id=user_id, client_id=client.id)
-
-    return user_postgres_adapter(user=user)
+    created = await user.get(id=user.id).select_related("client")
+    return user_postgres_adapter(user=created)

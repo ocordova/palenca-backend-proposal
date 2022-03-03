@@ -42,6 +42,13 @@ class TestRepository:
         assert mock_user.id == user.id
 
     @pytest.mark.asyncio
+    async def test_repo_get_user_by_client_and_user_not_found(self):
+
+        user = await repo_get_user_by_client_and_user(client_id=1, user_id="id_")
+
+        assert user is None
+
+    @pytest.mark.asyncio
     async def test_repo_create_user(self):
         user_id = 1
         mock_client = await ClientPostgresFaker.create()

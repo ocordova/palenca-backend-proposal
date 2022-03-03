@@ -1,2 +1,10 @@
 [run]
-omit = api/__init__.py, api/app.py, api/presentation/*, api/misc/*
+omit = 
+    api/__init__.py, api/app.py
+    api/presentation/*
+    api/misc/*
+    api/domain/exceptions.py
+    */tests/*
+
+[coverage:report]
+skip_empty = true

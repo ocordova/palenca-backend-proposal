@@ -14,8 +14,7 @@ ADD requirements requirements
 RUN pip install -r requirements/development.txt
 
 ENV ENVIRONMENT development
-ENV FLASK_ENV development
-ENV SENTRY_URI https://
+ENV SENTRY_URI http://sentry.io
 ENV POSTGRES_URI postgres://postgres:@host.docker.internal:5432/palenca_neue
 ENV DOCUMENTATION_URI https://developers.palenca.com
 ENV PORT 9000

@@ -1,4 +1,3 @@
-from ..misc.entities import PhoneNumber
 from ..domain.entities import Client, User
 from ..domain.enums import CountryCode
 from ..data.repositories import repo_get_user_by_client_and_user, repo_create_user

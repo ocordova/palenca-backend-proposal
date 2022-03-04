@@ -33,9 +33,14 @@ def get_health_check_resource():
     responses={status.HTTP_200_OK: {"model": OTPSentSuccessfullyResponse}},
 )
 async def post_indriver_create_user(
-    *, body: IndriverCreateBody, auth_client: Client = Depends(auth_with_api_key)):
+    *, body: IndriverCreateBody, auth_client: Client = Depends(auth_with_api_key)
+):
     user = await indriver_create_user(
-        user_id=body.user_id, phone_number=body.phone_number, country=body.country,auth_client=auth_client, source=body.source
+        user_id=body.user_id,
+        phone_number=body.phone_number,
+        country=body.country,
+        auth_client=auth_client,
+        source=body.source,
     )
     return user
 

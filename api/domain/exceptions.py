@@ -1,5 +1,5 @@
 from typing import Any, Dict
-from ..misc.env import Env
+from ..misc.config import environment
 
 
 class BaseException(Exception):
@@ -15,7 +15,9 @@ class BaseException(Exception):
         super().__init__(code, message, documentation_url)
         _documentation_url = documentation_url
         if isinstance(_documentation_url, str) and _documentation_url:
-            self.documentation_url = f"{Env.DOCUMENTATION_URI}/{_documentation_url}"
+            self.documentation_url = (
+                f"{environment.DOCUMENTATION_URI}/{_documentation_url}"
+            )
         else:
             self.documentation_url = ""
 

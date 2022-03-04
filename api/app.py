@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
 
 
-from .misc.env import is_production, is_staging, TORTOISE_ORM, Env
+from .misc.config import TORTOISE_ORM, environment
 from .misc.fastapi import catch_exceptions_middleware
 from .presentation.resources import health_router, indriver_router
 
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     uvicorn.run(
         "api.app:create_app",
         host="0.0.0.0",
-        port=Env.PORT,
+        port=environment.PORT,
         log_level="info",
         reload=True,
     )

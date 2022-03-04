@@ -12,4 +12,4 @@ class OTPSentSuccessfullyResponse(BaseEmptySuccessResponse):
 
 
 class HealthResponse(BaseModel):
-    status: str
+    status: int

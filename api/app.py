@@ -5,7 +5,7 @@ from tortoise.contrib.fastapi import register_tortoise
 
 from .misc.config import TORTOISE_ORM, environment
 from .misc.fastapi import catch_exceptions_middleware
-from .presentation.resources import health_router, indriver_router
+from .presentation.resources import health_router, pedidosya_router
 
 
 def set_sentry() -> None:
@@ -14,7 +14,7 @@ def set_sentry() -> None:
 
 def set_resources(app: FastAPI) -> None:
     app.include_router(health_router)
-    app.include_router(indriver_router)
+    app.include_router(pedidosya_router)
 
 
 def set_database(app: FastAPI) -> None:

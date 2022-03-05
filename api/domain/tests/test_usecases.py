@@ -24,7 +24,7 @@ async def test_create_or_get_user_with_existent_user(user):
         return_value=None,
     ) as created_user:
 
-        result = await create_or_get_user(client=user.client, user_id=user.user_id)
+        result = await create_or_get_user(client=user.client, user_cuid=user.cuid)
 
         assert isinstance(result, User)
         assert result == user
@@ -47,7 +47,7 @@ async def test_create_or_get_user_without_an_existen_user(user):
         return_value=user,
     ) as created_user:
 
-        result = await create_or_get_user(client=user.client, user_id=user.user_id)
+        result = await create_or_get_user(client=user.client, user_cuid=user.cuid)
 
         assert isinstance(result, User)
         assert result == user

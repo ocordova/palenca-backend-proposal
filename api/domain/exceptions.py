@@ -1,3 +1,4 @@
+from email import message
 from typing import Any, Dict
 from ..misc.config import environment
 
@@ -72,7 +73,11 @@ class UnauthorizedException(BaseException):
         super().__init__(code, message, documentation_url)
 
 
-class UnableToCreateUser(BusinessException):
+class UnableToCreateUserException(BusinessException):
     code = "unable_to_create_user"
     message = "We couldn't create a user, please try again in a few seconds"
 
+
+class PlatformUnavailableInCountryException(BusinessException):
+    code = "platform_unavailable_in_country"
+    message = "The platform is not available in the country"

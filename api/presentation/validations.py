@@ -1,11 +1,13 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from typing import Optional
 
-from ..domain.enums import CountryCode
+from ..domain.enums import CountryCode, Source
 
 
-class IndriverCreateBody(BaseModel):
-    user_id: str
+class PedidosYaCreateUserBody(BaseModel):
+    cuid: str
     country: CountryCode
-    phone_number: str
-    source: Optional[str] = None
+    email: EmailStr
+    password: str
+    worker_id: str
+    source: Optional[Source] = None

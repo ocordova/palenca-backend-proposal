@@ -1,5 +1,5 @@
-import time
+import cuid
 
-def create_timestamp()-> str:
-    
-    return f"user_{int(time.time() * 1000)}"
+
+def create_cuid() -> str:
+    return cuid.cuid()

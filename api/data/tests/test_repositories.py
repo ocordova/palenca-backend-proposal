@@ -4,11 +4,21 @@ from api.data.repositories import (
     repo_get_client_by_api_key,
     repo_get_user_by_client_and_user,
     repo_create_user,
+    repo_get_latest_user_app_login,
+    repo_create_app_login,
+    repo_get_platform_by_code,
 )
-from api.data.fakers import ClientPostgresFaker, UserPostgresFaker
-from api.domain.entities import Client, User
+from api.data.fakers import (
+    AppLoginPostgresFaker,
+    ClientPostgresFaker,
+    PlatformPostgresFaker,
+    UserPostgresFaker,
+)
+from api.misc.utils import create_cuid
+from api.data.models import UserPostgres
+from api.domain.entities import AppLogin, Client, Platform, User
 from api.domain.exceptions import NotFoundException
-from api.domain.enums import Platform
+from api.domain.enums import AppLoginStatus, CountryCode, PlatformCode
 
 
 class TestRepository:
@@ -35,7 +45,7 @@ class TestRepository:
 
         mock_user = await UserPostgresFaker.create()
         user = await repo_get_user_by_client_and_user(
-            client_id=mock_user.client.id, user_id=mock_user.user_id
+            client_id=mock_user.client.id, user_cuid=mock_user.cuid
         )
 
         assert isinstance(user, User)
@@ -44,27 +54,82 @@ class TestRepository:
     @pytest.mark.asyncio
     async def test_repo_get_user_by_client_and_user_not_found(self):
 
-        user = await repo_get_user_by_client_and_user(client_id=1, user_id="id_")
+        user = await repo_get_user_by_client_and_user(client_id=1, user_cuid="id_")
 
         assert user is None
 
-    @pytest.mark.asyncio
+    @pytest.mark.asynciorepo_get_user_by_client_and_user
     async def test_repo_create_user(self):
-        user_id = 1
+        cuid = 1
         mock_client = await ClientPostgresFaker.create()
         client = Client(
             id=mock_client.id,
             email="jane.doe@gmail.com",
             api_key="api_key",
             company_name="Company Name",
-            client_id="client_id",
+            cuid="cuid",
             logo_url="https://palenca.com/image.webm",
-            platforms=[Platform.INDRIVER.value],
+            platforms=[PlatformCode.INDRIVER.value],
             created_at=datetime.datetime.utcnow(),
             updated_at=datetime.datetime.utcnow(),
         )
 
-        user = await repo_create_user(client=client, user_id=user_id)
+        user = await repo_create_user(client=client, user_cuid=cuid)
 
         assert isinstance(user, User)
         assert user.client.id == client.id
+
+    @pytest.mark.asyncio
+    async def test_repo_get_latest_user_app_login(self):
+        user_id = 55
+        platform = PlatformCode.PEDIDOSYA
+        login = "jane.doe@gmail.com"
+
+        user = await UserPostgresFaker.create(id=user_id)
+        client = await ClientPostgresFaker.create()
+
+        await AppLoginPostgresFaker.create(
+            user=user, platform=platform.value, login=login, client=client
+        )
+        await AppLoginPostgresFaker.create()
+
+        app_login = await repo_get_latest_user_app_login(
+            user_id=user_id, platform=platform, login=login,
+        )
+
+        assert isinstance(app_login, AppLogin)
+        assert app_login.user_id == user_id
+
+    @pytest.mark.asyncio
+    async def test_repo_create_app_login(self):
+        user_id = 33
+        client_id = 2
+
+        await UserPostgresFaker.create(id=user_id)
+        await ClientPostgresFaker.create(id=client_id)
+
+        to_create = AppLogin(
+            client_id=client_id,
+            user_id=user_id,
+            country=CountryCode.MEXICO,
+            platform=PlatformCode.PEDIDOSYA,
+            login="jane.doe@gmail.com",
+            status=AppLoginStatus.CREATED,
+            created_at=datetime.datetime.utcnow(),
+            updated_at=datetime.datetime.utcnow(),
+        )
+        app_login = await repo_create_app_login(app_login=to_create)
+
+        assert isinstance(app_login, AppLogin)
+        assert app_login.client_id == client_id
+        assert app_login.user_id == user_id
+
+    @pytest.mark.asyncio
+    async def test_repo_get_platform_by_code(self):
+        code = PlatformCode.PEDIDOSYA
+        await PlatformPostgresFaker.create(code=code.value)
+
+        platform = await repo_get_platform_by_code(code=code)
+
+        assert isinstance(platform, Platform)
+        assert platform.code == code

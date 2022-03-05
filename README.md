@@ -43,3 +43,23 @@ docker exec -it CONTAINER_ID /bin/bash -l
 pytest --cov-report term-missing --cov=api
 
 ```
+
+
+## Migrations
+Using Aerich(https://github.com/tortoise/aerich)
+
+Run migrations
+```bash
+aerich upgrade
+```
+
+Create migration
+```bash
+aerich migrate --name create_app_login_table
+```
+
+Downgrade
+
+```bash
+aerich downgrade
+```

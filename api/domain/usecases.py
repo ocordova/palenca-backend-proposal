@@ -53,11 +53,11 @@ async def create_or_get_app_login(
 
     if not app_login:
         to_create = AppLogin(
-            client=client,
-            user=user,
+            client_id=client.id,
+            user_id=user.id,
             country=country,
             platform=platform,
-            sources=source,
+            source=source,
             worker_id=worker_id,
             login=login,
             password=password,
@@ -79,7 +79,7 @@ async def login_pedidos_ya(*, app_login: AppLogin) -> None:
             documentation_url="#pedidosya_available_countries"
         )
 
-    await repo_pedidosya_login(
+    return await repo_pedidosya_login(
         country=app_login.country, email=app_login.login, password=app_login.password
     )
 

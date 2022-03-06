@@ -56,7 +56,7 @@ To maintain the same style throughout the code, we use the following tools:
 - [Autoflake](https://github.com/PyCQA/autoflake): Removes unused imports and variables
 - [Mypy](https://github.com/python/mypy): Static type checker
 
-To ensure this, we use [pre-commit](https://pre-commit.com/) to run as git hooks. Follow [pre-commit installation instructions](https://pre-commit.com/#install) for your development environment
+To ensure this, we use [pre-commit](https://pre-commit.com/) to run as git hook. Follow [pre-commit installation instructions](https://pre-commit.com/#install) for your development environment
 
 ## Project Structure
 ```markdown
@@ -76,7 +76,7 @@ api                  # Clean architecture project. See section below
 - [Tortoise ORM](https://tortoise-orm.readthedocs.io/en/latest/): asyncio ORM for Postgres
 - [Aerich](https://github.com/tortoise/aerich): Migration tool for Tortoise ORM
 - [cuid](https://github.com/ericelliott/cuid): Collision-resistant ids
-- [bcrypt](https://github.com/pyca/bcrypt/): Tassword hashing tool
+- [bcrypt](https://github.com/pyca/bcrypt/): Password hashing tool
 
 ### Testing
 - [pytest](https://docs.pytest.org/): Framework for testing
@@ -89,7 +89,7 @@ You can set then inside the Dockerfiles
 
 
 ## Open API
-FastAPI autogenerates [the OpenAPI Specification](https://www.openapis.org/) once you run the project.
+FastAPI autogenerates the [OpenAPI Specification](https://www.openapis.org/) once you run the project.
 Once you run the project, you can view them with Swagger UI and ReDoc:
 ```
 Swagger: http://localhost:9000/docs

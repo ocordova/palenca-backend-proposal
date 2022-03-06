@@ -85,11 +85,11 @@ api                  # Clean architecture project. See section below
 
 ## Environment variables
 The project needs environment variables to be set, to run correctly. See `misc/config.py` for a list of them.
-You can set then inside the Dockerfiles
+You can set them inside the Dockerfiles
 
 
 ## Open API
-FastAPI autogenerates the [OpenAPI Specification](https://www.openapis.org/) once you run the project.
+FastAPI autogenerates the [OpenAPI Specification](https://www.openapis.org/).
 Once you run the project, you can view them with Swagger UI and ReDoc:
 ```
 Swagger: http://localhost:9000/docs
@@ -97,10 +97,11 @@ ReDoc: http://localhost:9000/redoc
 ```
 
 
-## Clean Architecture
-![](docs/clean_architecture.jpg?raw=true)
+## Clean Architectureç
 
 This project is following the [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)  software design philosophy.
+
+![](docs/clean_architecture.jpg?raw=true)
 
 
 ## Modules
@@ -112,7 +113,7 @@ Entities are native business objects of this project. In this project, examples 
 We use enums to guarantee the uniqueness of constant values
 ### Adapters
 `domain/adapters`<br>
-The adapters are functions that convert a databas model or third party api model to an entity.
+The adapters are functions that convert a database model or third party api model to an entity.
 
 ### Repositories
 `data/repositories`<br>
@@ -126,15 +127,15 @@ The use cases typically call repository methods.
 
 ### Exceptions
 `domain/exceptions`<br>
-Exceptions that are typically raised by use cases. They can be converted to JSON, and returned to the HTTP client and typically include a link to the rerfernce in the documentation.
+Exceptions that are typically raised by use cases. They can be converted to JSON, and returned to the HTTP client and typically include a link to the documentation.
 
 ### Resources
 `presentation/resources`<br>
-Are built using FastAPI dependency. They use validations to parse HTTP requests data. They call the use cases. They also check the authentication, encode the Exceptions into JSON an serialize the responses.
+Are built using FastAPI dependency. They use validations to parse HTTP requests data. They call the use cases. They also check the authentication, encode the Exceptions into JSON an serialize the responses and can detect the api version to call a specific usecase or return a different response schema.
 
 ### Validations
 `presentation/validations`<br>
-Endpoint payload validation are build using pydantic library, they are used by FastAPI to parse and validate them. A lot of schemata corresponds to an entity or enum.
+Endpoint payload validation are build using pydantic library, they are used by FastAPI to parse and validate the data. A lot of schemata corresponds to an entity or enum.
 
 ### Responses
 `presentation/reponses`<br>

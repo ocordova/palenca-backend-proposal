@@ -4,8 +4,8 @@ The goal of this project architecture is to overcome Palenca's main development 
 
 
 ## Requirements
-[Docker](https://www.docker.com/get-started)
-[pre-commit](https://pre-commit.com)
+- [Docker](https://www.docker.com/get-started)
+- [pre-commit](https://pre-commit.com)
 
 ## Steps to run the project
 
@@ -56,9 +56,7 @@ To maintain the same style throughout the code, we use the following tools:
 - [Autoflake](https://github.com/PyCQA/autoflake): Removes unused imports and variables
 - [Mypy](https://github.com/python/mypy): Static type checker
 
-To ensure this, we use [pre-commit](https://pre-commit.com/) to run as git hooks.
-
-Follow [pre-commit installation instructions](https://pre-commit.com/#install) for your dev environment
+To ensure this, we use [pre-commit](https://pre-commit.com/) to run as git hooks. Follow [pre-commit installation instructions](https://pre-commit.com/#install) for your development environment
 
 ## Project Structure
 ```markdown
@@ -87,6 +85,7 @@ api                  # Clean architecture project. See section below
 
 ## Environment variables
 The project needs environment variables to be set, to run correctly. See `misc/config.py` for a list of them.
+You can set then inside the Dockerfiles
 
 
 ## Open API
@@ -101,43 +100,43 @@ ReDoc: http://localhost:9000/redoc
 ## Clean Architecture
 ![](docs/clean_architecture.jpg?raw=true)
 
-This project is following the (Clean Architecture)[https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html]  software design philosophy.
+This project is following the [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)  software design philosophy.
 
 
 ## Modules
 ### Entities
-`domain/entities`
+`domain/entities`<br>
 Entities are native business objects of this project. In this project, examples are Client, User, Platform, AppLogin. An entity is typically saved to the database using a repository method (see below), but it can also have been fetched from other apis using HTTP.
 
-`domain/enums`
+`domain/enums`<br>
 We use enums to guarantee the uniqueness of constant values
 ### Adapters
-`domain/adapters`
+`domain/adapters`<br>
 The adapters are functions that convert a databas model or third party api model to an entity.
 
 ### Repositories
-`data/repositories`
+`data/repositories`<br>
 The functions receive entities and change the database in a specific way or connect with an api to retrieve information. The functions that return entities typically have to use an adapter to convert the model instance to an entity. In this way, the database or third party api is abstracted from the business logic.
 
 ### Use cases
-`domain/usecases`
+`domain/usecases`<br>
 The use cases contains the actual business logic. For example, what to do if someone logins to a platform? The use case checks the platform is online, that the platform is available in the country, notify to socket or webhooks.
 
 The use cases typically call repository methods.
 
 ### Exceptions
-`domain/exceptions`
+`domain/exceptions`<br>
 Exceptions that are typically raised by use cases. They can be converted to JSON, and returned to the HTTP client and typically include a link to the rerfernce in the documentation.
 
 ### Resources
-`presentation/resources`
+`presentation/resources`<br>
 Are built using FastAPI dependency. They use validations to parse HTTP requests data. They call the use cases. They also check the authentication, encode the Exceptions into JSON an serialize the responses.
 
 ### Validations
-`presentation/validations`
+`presentation/validations`<br>
 Endpoint payload validation are build using pydantic library, they are used by FastAPI to parse and validate them. A lot of schemata corresponds to an entity or enum.
 
 ### Responses
-`presentation/reponses`
+`presentation/reponses`<br>
 Endpoint JSON response are build using the pydantic library, they are used by FastAPI to serialize them.
 

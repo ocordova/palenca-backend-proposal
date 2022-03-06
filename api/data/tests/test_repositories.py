@@ -1,24 +1,26 @@
 import datetime
+
 import pytest
-from api.data.repositories import (
-    repo_get_client_by_api_key,
-    repo_get_user_by_client_and_user,
-    repo_create_user,
-    repo_get_latest_user_app_login,
-    repo_create_app_login,
-    repo_get_platform_by_code,
-)
+
 from api.data.fakers import (
     AppLoginPostgresFaker,
     ClientPostgresFaker,
     PlatformPostgresFaker,
     UserPostgresFaker,
 )
-from api.misc.utils import create_cuid
 from api.data.models import UserPostgres
+from api.data.repositories import (
+    repo_create_app_login,
+    repo_create_user,
+    repo_get_client_by_api_key,
+    repo_get_latest_user_app_login,
+    repo_get_platform_by_code,
+    repo_get_user_by_client_and_user,
+)
 from api.domain.entities import AppLogin, Client, Platform, User
-from api.domain.exceptions import NotFoundException
 from api.domain.enums import AppLoginStatus, CountryCode, PlatformCode
+from api.domain.exceptions import NotFoundException
+from api.misc.utils import create_cuid
 
 
 class TestRepository:
@@ -94,7 +96,9 @@ class TestRepository:
         await AppLoginPostgresFaker.create()
 
         app_login = await repo_get_latest_user_app_login(
-            user_id=user_id, platform=platform, login=login,
+            user_id=user_id,
+            platform=platform,
+            login=login,
         )
 
         assert isinstance(app_login, AppLogin)

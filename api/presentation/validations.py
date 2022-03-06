@@ -1,5 +1,6 @@
-from pydantic import BaseModel, EmailStr
 from typing import Optional
+
+from pydantic import BaseModel, EmailStr
 
 from ..domain.enums import CountryCode, Source
 
@@ -11,3 +12,6 @@ class PedidosYaCreateUserBody(BaseModel):
     password: str
     worker_id: str
     source: Optional[Source] = None
+
+    class Config:
+        use_enum_values = True

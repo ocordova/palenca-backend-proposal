@@ -1,7 +1,9 @@
 import asyncio
-from typing import Any
 import inspect
+from typing import Any
+
 import factory
+
 
 # https://github.com/FactoryBoy/factory_boy/issues/679#issuecomment-673960170
 class TortoiseModelFactory(factory.Factory):

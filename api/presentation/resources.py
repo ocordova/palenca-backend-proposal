@@ -1,11 +1,11 @@
-from fastapi import status, APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 
+from ..domain.entities import Client
+from ..domain.enums import PlatformCode
+from ..domain.usecases import pedidosya_create_user
+from ..misc.fastapi import auth_with_api_key
 from .responses import HealthResponse, OTPSentSuccessfullyResponse
 from .validations import PedidosYaCreateUserBody
-from ..domain.usecases import pedidosya_create_user
-from ..domain.enums import PlatformCode
-from ..domain.entities import Client
-from ..misc.fastapi import auth_with_api_key
 
 PEDIDOSYA_URI = PlatformCode.PEDIDOSYA.value
 
@@ -19,7 +19,9 @@ pedidosya_router = APIRouter(prefix=f"/{PEDIDOSYA_URI}", tags=[f"{PEDIDOSYA_URI}
     summary="Get health check",
     description="Checks whether the application server is running.",
     status_code=status.HTTP_200_OK,
-    responses={status.HTTP_200_OK: {"model": HealthResponse},},
+    responses={
+        status.HTTP_200_OK: {"model": HealthResponse},
+    },
 )
 def get_health_check_resource():
     return HealthResponse(status=status.HTTP_200_OK)
@@ -42,6 +44,6 @@ async def post_pedidosya_create_user(
         country=body.country,
         auth_client=auth_client,
         source=body.source,
-        worder_id=body.worker_id,
+        worker_id=body.worker_id,
     )
     return user

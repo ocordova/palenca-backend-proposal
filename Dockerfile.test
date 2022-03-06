@@ -10,7 +10,7 @@ RUN mkdir -p /opt/api
 WORKDIR /opt/api
 
 ADD requirements requirements
-    
+
 RUN pip install -r requirements/testing.txt
 
 COPY . /opt/api

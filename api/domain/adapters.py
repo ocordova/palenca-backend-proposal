@@ -1,19 +1,19 @@
 from ..data.models import (
     AppLoginPostgres,
     ClientPostgres,
-    UserPostgres,
     PlatformPostgres,
+    UserPostgres,
 )
 from .entities import (
     AppLogin,
+    AppLoginExtraData,
     Client,
     ClientExtraData,
     Platform,
-    UserExtraData,
     User,
-    AppLoginExtraData,
+    UserExtraData,
 )
-from .enums import AppLoginStatus, CountryCode, PlatformCode, Source, PlatformStatus
+from .enums import AppLoginStatus, CountryCode, PlatformCode, PlatformStatus, Source
 
 
 def client_postgres_adapter(*, client: ClientPostgres) -> Client:

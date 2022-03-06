@@ -1,5 +1,6 @@
-from pydantic import BaseSettings, PostgresDsn, HttpUrl
 from enum import Enum
+
+from pydantic import BaseSettings, HttpUrl, PostgresDsn
 
 
 class EnvName(Enum):

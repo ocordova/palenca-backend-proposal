@@ -1,12 +1,12 @@
-import pytest
-from hypothesis import given, settings
 from unittest.mock import patch
 
-from api.domain.entities import AppLogin, Client, User
-from api.domain.usecases import create_or_get_user, create_or_get_app_login
-from api.domain.enums import CountryCode, PlatformCode, Source
+import pytest
+from hypothesis import given, settings
 
-from api.domain.tests.strategies import user_builder, app_login_builder, client_builder
+from api.domain.entities import AppLogin, Client, User
+from api.domain.enums import CountryCode, PlatformCode, Source
+from api.domain.tests.strategies import app_login_builder, client_builder, user_builder
+from api.domain.usecases import create_or_get_app_login, create_or_get_user
 
 
 @settings(max_examples=10)

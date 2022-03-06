@@ -2,7 +2,6 @@ import uvicorn
 from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
 
-
 from .misc.config import TORTOISE_ORM, environment
 from .misc.fastapi import catch_exceptions_middleware
 from .presentation.resources import health_router, pedidosya_router

@@ -1,19 +1,18 @@
 import datetime
-
 from platform import platform
 
-from ..domain.entities import Client, User, AppLogin
-from ..domain.enums import AppLoginStatus, CountryCode, PlatformCode, Source
 from ..data.repositories import (
-    repo_get_platform_by_code,
-    repo_get_user_by_client_and_user,
+    repo_create_app_login,
     repo_create_user,
     repo_get_latest_user_app_login,
-    repo_create_app_login,
+    repo_get_platform_by_code,
+    repo_get_user_by_client_and_user,
     repo_pedidosya_login,
 )
-from ..misc.utils import create_cuid
+from ..domain.entities import AppLogin, Client, User
+from ..domain.enums import AppLoginStatus, CountryCode, PlatformCode, Source
 from ..domain.exceptions import PlatformUnavailableInCountryException
+from ..misc.utils import create_cuid
 
 
 async def create_or_get_user(client: Client, user_cuid: str = None) -> User:
@@ -78,7 +77,7 @@ async def login_pedidos_ya(*, app_login: AppLogin) -> None:
         raise PlatformUnavailableInCountryException(
             documentation_url="#pedidosya_available_countries"
         )
-
+    assert app_login.password is not None
     return await repo_pedidosya_login(
         country=app_login.country, email=app_login.login, password=app_login.password
     )
@@ -91,7 +90,8 @@ async def pedidosya_create_user(
     email: str,
     password: str,
     country: CountryCode,
-    source: Source
+    source: Source = None,
+    worker_id: str
 ) -> User:
 
     user = await create_or_get_user(client=auth_client, user_cuid=user_cuid)
@@ -103,6 +103,7 @@ async def pedidosya_create_user(
         login=email,
         password=password,
         source=source,
+        worker_id=worker_id,
     )
 
     return user

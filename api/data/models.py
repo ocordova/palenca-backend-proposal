@@ -71,4 +71,3 @@ class PlatformPostgres(Model):
 
     class Meta:
         table = "platforms"
-

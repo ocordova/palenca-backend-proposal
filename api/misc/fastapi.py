@@ -2,9 +2,9 @@ from fastapi import Depends, Request, status
 from fastapi.responses import JSONResponse
 from fastapi.security import APIKeyHeader
 
-from ..domain.exceptions import BaseException, NotFoundException, UnauthorizedException
-from ..domain.entities import Client
 from ..data.repositories import repo_get_client_by_api_key
+from ..domain.entities import Client
+from ..domain.exceptions import BaseException, NotFoundException, UnauthorizedException
 
 X_API_KEY = APIKeyHeader(name="X-API-Key")
 
@@ -24,6 +24,10 @@ async def catch_exceptions_middleware(request: Request, call_next):
     try:
         return await call_next(request)
     except UnauthorizedException as e:
-        return JSONResponse(content=e.serialize(), status_code=status.HTTP_401_UNAUTHORIZED)
+        return JSONResponse(
+            content=e.serialize(), status_code=status.HTTP_401_UNAUTHORIZED
+        )
     except NotFoundException as e:
-        return JSONResponse(content=e.serialize(), status_code=status.HTTP_404_NOT_FOUND)
+        return JSONResponse(
+            content=e.serialize(), status_code=status.HTTP_404_NOT_FOUND
+        )

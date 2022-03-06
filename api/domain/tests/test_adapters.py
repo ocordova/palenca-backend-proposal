@@ -1,24 +1,25 @@
 import pytest
-from api.domain.adapters import (
-    client_postgres_adapter,
-    user_postgres_adapter,
-    app_login_postgres_adapter,
-    platform_postgres_adapter,
-)
-from api.domain.entities import (
-    AppLogin,
-    AppLoginExtraData,
-    Client,
-    Platform,
-    User,
-    ClientExtraData,
-    UserExtraData,
-)
+
 from api.data.fakers import (
     AppLoginPostgresFaker,
     ClientPostgresFaker,
     PlatformPostgresFaker,
     UserPostgresFaker,
+)
+from api.domain.adapters import (
+    app_login_postgres_adapter,
+    client_postgres_adapter,
+    platform_postgres_adapter,
+    user_postgres_adapter,
+)
+from api.domain.entities import (
+    AppLogin,
+    AppLoginExtraData,
+    Client,
+    ClientExtraData,
+    Platform,
+    User,
+    UserExtraData,
 )
 from api.domain.enums import UserPurpose
 
@@ -102,4 +103,3 @@ async def test_platform_postgres_adapter():
     )
     assert entity.created_at == platform.created_at
     assert entity.updated_at == platform.updated_at
-

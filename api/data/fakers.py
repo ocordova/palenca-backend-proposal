@@ -1,18 +1,20 @@
 import datetime
 from platform import platform
+
 import factory
-from ..misc.tortoise import TortoiseModelFactory
-from ..misc.utils import create_cuid
-from .models import AppLoginPostgres, ClientPostgres, PlatformPostgres, UserPostgres
+
 from ..domain.enums import (
     AppLoginFailedReason,
     AppLoginStatus,
-    PlatformCode,
     CountryCode,
+    PlatformCode,
     PlatformStatus,
-    UserPurpose,
     Source,
+    UserPurpose,
 )
+from ..misc.tortoise import TortoiseModelFactory
+from ..misc.utils import create_cuid
+from .models import AppLoginPostgres, ClientPostgres, PlatformPostgres, UserPostgres
 
 
 class ClientPostgresFaker(TortoiseModelFactory):

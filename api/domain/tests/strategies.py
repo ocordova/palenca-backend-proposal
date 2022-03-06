@@ -1,5 +1,6 @@
 from hypothesis.strategies import builds, composite
-from api.domain.entities import Client, User, AppLogin
+
+from api.domain.entities import AppLogin, Client, User
 
 
 @composite
@@ -26,6 +27,4 @@ def app_login_builder(draw, user_id=None, client_id=None):
     if client_id is not None:
         app_login.client_id = client_id
 
-        
     return app_login
-

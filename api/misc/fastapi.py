@@ -2,7 +2,7 @@ from fastapi import Depends, Request, status
 from fastapi.responses import JSONResponse
 from fastapi.security import APIKeyHeader
 
-from ..data.repositories import repo_get_client_by_api_key
+from ..data.postgres_repositories import repo_get_client_by_api_key
 from ..domain.entities import Client
 from ..domain.exceptions import BaseException, NotFoundException, UnauthorizedException
 

@@ -8,8 +8,8 @@ from api.data.fakers import (
     PlatformPostgresFaker,
     UserPostgresFaker,
 )
-from api.data.models import UserPostgres
-from api.data.repositories import (
+from api.data.postgres_models import UserPostgres
+from api.data.postgres_repositories import (
     repo_create_app_login,
     repo_create_user,
     repo_get_client_by_api_key,

@@ -14,7 +14,12 @@ from ..domain.enums import (
 )
 from ..misc.tortoise import TortoiseModelFactory
 from ..misc.utils import create_cuid
-from .models import AppLoginPostgres, ClientPostgres, PlatformPostgres, UserPostgres
+from .postgres_models import (
+    AppLoginPostgres,
+    ClientPostgres,
+    PlatformPostgres,
+    UserPostgres,
+)
 
 
 class ClientPostgresFaker(TortoiseModelFactory):

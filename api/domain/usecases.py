@@ -1,7 +1,7 @@
 import datetime
 from platform import platform
 
-from ..data.repositories import (
+from ..data.postgres_repositories import (
     repo_create_app_login,
     repo_create_user,
     repo_get_latest_user_app_login,

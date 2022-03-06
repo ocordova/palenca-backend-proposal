@@ -1,4 +1,4 @@
-from ..data.models import (
+from ..data.postgres_models import (
     AppLoginPostgres,
     ClientPostgres,
     PlatformPostgres,

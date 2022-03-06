@@ -2,7 +2,7 @@ from typing import Optional
 
 from api.domain.enums import CountryCode, PlatformCode
 
-from ..domain.adapters import (
+from ..domain.postgres_adapters import (
     app_login_postgres_adapter,
     client_postgres_adapter,
     platform_postgres_adapter,
@@ -10,7 +10,12 @@ from ..domain.adapters import (
 )
 from ..domain.entities import AppLogin, Client, Platform, User
 from ..domain.exceptions import NotFoundException
-from .models import AppLoginPostgres, ClientPostgres, PlatformPostgres, UserPostgres
+from .postgres_models import (
+    AppLoginPostgres,
+    ClientPostgres,
+    PlatformPostgres,
+    UserPostgres,
+)
 
 
 async def repo_get_client_by_api_key(*, api_key: str) -> Client:

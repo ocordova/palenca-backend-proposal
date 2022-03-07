@@ -17,6 +17,7 @@ class EnvironmentSettings(BaseSettings):
     POSTGRES_URI: PostgresDsn
     PORT: int
     DOCUMENTATION_URI: HttpUrl
+    SIZE_POOL_AIOHTTP: int
 
     def is_production(self):
         return self.ENVIRONMENT.value == EnvName.DEVELOPMENT.value
@@ -38,12 +39,10 @@ environment = EnvironmentSettings()
 
 # For migrations
 TORTOISE_ORM = {
-    "connections": {
-        "default": "postgres://postgres:@host.docker.internal:5432/palenca_neue"
-    },
+    "connections": {"default": environment.POSTGRES_URI},
     "apps": {
         "models": {
-            "models": ["api.data.models", "aerich.models"],
+            "models": ["api.data.postgres_models", "aerich.models"],
             "default_connection": "default",
         },
     },

@@ -18,7 +18,9 @@ python -m api.app
 ## Run tests
 
 ```bash
-docker exec -it CONTAINER_ID /bin/bash -l
+# Run the project
+docker ps # or `docker container ls` to get container id
+docker exec -it CONTAINER_ID /bin/bash -l # Run bash in th container
 pytest -n auto --timeout=5
 
 ```
@@ -26,6 +28,8 @@ pytest -n auto --timeout=5
 ## Run coverage
 
 ```bash
+# Run the project
+docker ps # or `docker container ls` to get container id
 docker exec -it CONTAINER_ID /bin/bash -l
 pytest --cov-report term-missing --cov=api
 
@@ -56,7 +60,12 @@ To maintain the same style throughout the code, we use the following tools:
 - [Autoflake](https://github.com/PyCQA/autoflake): Removes unused imports and variables
 - [Mypy](https://github.com/python/mypy): Static type checker
 
-To ensure this, we use [pre-commit](https://pre-commit.com/) to run as git hook. Follow [pre-commit installation instructions](https://pre-commit.com/#install) for your development environment
+To ensure this, we use [pre-commit](https://pre-commit.com/) to run as git hook. Follow [pre-commit installation instructions](https://pre-commit.com/#install) for your development environment and setup the git hooks scripts.
+
+```bash
+pip install pre-commit
+pre-commit install
+```
 
 ## Project Structure
 ```markdown

@@ -15,8 +15,10 @@ RUN pip install -r requirements/development.txt
 
 ENV ENVIRONMENT development
 ENV SENTRY_URI http://sentry.io
-ENV POSTGRES_URI postgres://postgres:@host.docker.internal:5432/palenca_neue
+ENV POSTGRES_URI postgres://neue:3tXiNAoo9AhzdjHrDBHs@neue-db.cyil70uvq8m0.us-east-2.rds.amazonaws.com:5432/postgres
+# ENV POSTGRES_URI postgres://postgres:@host.docker.internal:5432/palenca_neue
 ENV DOCUMENTATION_URI https://developers.palenca.com
+ENV SIZE_POOL_AIOHTTP 100
 ENV PORT 9000
 
 EXPOSE 9000

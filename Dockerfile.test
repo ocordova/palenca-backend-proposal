@@ -18,5 +18,7 @@ COPY . /opt/api
 ENV ENVIRONMENT testing
 ENV FLASK_ENV testing
 ENV DATABASE_TEST_URL sqlite://:memory:
+ENV DOCUMENTATION_URI https://developers.palenca.com
+ENV SIZE_POOL_AIOHTTP 100
 
 CMD pytest

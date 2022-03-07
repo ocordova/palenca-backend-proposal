@@ -1,10 +1,26 @@
 import uvicorn
 from fastapi import FastAPI
+from fastapi.logger import logger
+
 from tortoise.contrib.fastapi import register_tortoise
 
 from .misc.config import TORTOISE_ORM, environment
+from .misc.aiohttp import SingletonAiohttp
 from .misc.fastapi import catch_exceptions_middleware
 from .presentation.resources import health_router, pedidosya_router
+
+
+fastAPILogger = logger
+
+
+async def on_start_up() -> None:
+    fastAPILogger.info("on_start_up")
+    SingletonAiohttp.get_aiohttp_client()
+
+
+async def on_shutdown() -> None:
+    fastAPILogger.info("on_shutdown")
+    await SingletonAiohttp.close_aiohttp_client()
 
 
 def set_sentry() -> None:
@@ -19,15 +35,20 @@ def set_resources(app: FastAPI) -> None:
 def set_database(app: FastAPI) -> None:
     register_tortoise(
         app,
-        db_url="postgres://postgres:@host.docker.internal:5432/palenca_neue",
-        modules={"models": ["api.data.models"]},
+        db_url=environment.POSTGRES_URI,
+        modules={"models": ["api.data.postgres_models"]},
         generate_schemas=True,
         add_exception_handlers=True,
     )
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title="Palenca API", description="API of Core service")
+    app = FastAPI(
+        title="Palenca API",
+        description="API of Core service",
+        on_start_up=[on_start_up],
+        on_shutdown=[on_shutdown],
+    )
     set_resources(app)
     set_database(app)
     register_error_handler(app)

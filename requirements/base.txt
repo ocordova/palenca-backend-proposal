@@ -1,4 +1,5 @@
 aerich==0.6.2
+aiohttp==3.8.1
 asyncio==3.4.3
 bcrypt==3.2.0
 cuid==0.3

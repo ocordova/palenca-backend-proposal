@@ -34,6 +34,9 @@ class EnvironmentSettings(BaseSettings):
     def is_sandbox(self):
         return self.ENVIRONMENT.value == EnvName.SANDBOX.value
 
+    def is_production_or_sandbox(self):
+        return self.ENVIRONMENT.value in [EnvName.SANDBOX.value, EnvName.SANDBOX.value]
+
 
 environment = EnvironmentSettings()
 

@@ -5,7 +5,7 @@ from fastapi.logger import logger
 from tortoise.contrib.fastapi import register_tortoise
 
 from .misc.config import TORTOISE_ORM, environment
-from .misc.aiohttp import SingletonAiohttp
+from .misc.http import HTTPClient
 from .misc.fastapi import catch_exceptions_middleware
 from .presentation.resources import health_router, pedidosya_router
 
@@ -15,12 +15,12 @@ fastAPILogger = logger
 
 async def on_start_up() -> None:
     fastAPILogger.info("on_start_up")
-    SingletonAiohttp.get_aiohttp_client()
+    HTTPClient.get_aiohttp_client()
 
 
 async def on_shutdown() -> None:
     fastAPILogger.info("on_shutdown")
-    await SingletonAiohttp.close_aiohttp_client()
+    await HTTPClient.close_aiohttp_client()
 
 
 def set_sentry() -> None:

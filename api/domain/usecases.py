@@ -1,4 +1,5 @@
 import datetime
+from os import access
 from platform import platform
 
 from ..data.postgres_repositories import (
@@ -7,11 +8,21 @@ from ..data.postgres_repositories import (
     repo_get_latest_user_app_login,
     repo_get_platform_by_code,
     repo_get_user_by_client_and_user,
-    repo_pedidosya_login,
+    repo_save_app_login_access_token,
 )
+from ..data.http_repositories import repo_pedidosya_login
 from ..domain.entities import AppLogin, Client, User
-from ..domain.enums import AppLoginStatus, CountryCode, PlatformCode, Source
-from ..domain.exceptions import PlatformUnavailableInCountryException
+from ..domain.enums import (
+    AppLoginStatus,
+    CountryCode,
+    PlatformCode,
+    PlatformStatus,
+    Source,
+)
+from ..domain.exceptions import (
+    PlatformUnavailableInCountryException,
+    PlatformIsNotOperatingException,
+)
 from ..misc.utils import create_cuid
 
 
@@ -42,7 +53,7 @@ async def create_or_get_app_login(
     password: str,
     worker_id: str = None,
     source: Source = None
-) -> AppLogin:
+) -> None:
 
     latest_login = await repo_get_latest_user_app_login(
         user_id=user.id, platform=platform, login=login
@@ -69,18 +80,25 @@ async def create_or_get_app_login(
     return app_login
 
 
-async def login_pedidos_ya(*, app_login: AppLogin) -> None:
+async def login_pedidos_ya(*, app_login: AppLogin) -> str:
 
     platform = await repo_get_platform_by_code(app_login.platform)
 
+    if platform.status == PlatformStatus.NOT_OPERATING:
+        raise PlatformIsNotOperatingException(documentation_url="#platform_status")
+
     if platform and app_login.country not in platform.available_countries:
         raise PlatformUnavailableInCountryException(
-            documentation_url="#pedidosya_available_countries"
+            documentation_url="#pedidosya__available_countries"
         )
     assert app_login.password is not None
-    return await repo_pedidosya_login(
+
+    # TODO response typing
+    result: dict = await repo_pedidosya_login(
         country=app_login.country, email=app_login.login, password=app_login.password
     )
+
+    return result.access_token
 
 
 async def pedidosya_create_user(
@@ -104,6 +122,12 @@ async def pedidosya_create_user(
         password=password,
         source=source,
         worker_id=worker_id,
+    )
+
+    response = login_pedidos_ya(app_login=app_login)
+
+    await repo_save_app_login_access_token(
+        app_login_id=app_login.id, access_token=response.access_token
     )
 
     return user

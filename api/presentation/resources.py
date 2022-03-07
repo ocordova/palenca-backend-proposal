@@ -4,7 +4,7 @@ from ..domain.entities import Client
 from ..domain.enums import PlatformCode
 from ..domain.usecases import pedidosya_create_user
 from ..misc.fastapi import auth_with_api_key
-from .responses import HealthResponse, OTPSentSuccessfullyResponse
+from .responses import HealthResponse, SucessfullLogin
 from .validations import PedidosYaCreateUserBody
 
 PEDIDOSYA_URI = PlatformCode.PEDIDOSYA.value
@@ -32,7 +32,7 @@ def get_health_check_resource():
     summary="Create pedidos ya user",
     description="Endpoint to create a new pedidos ya user",
     status_code=status.HTTP_200_OK,
-    responses={status.HTTP_200_OK: {"model": OTPSentSuccessfullyResponse}},
+    responses={status.HTTP_200_OK: {"model": SucessfullLogin}},
 )
 async def post_pedidosya_create_user(
     *, body: PedidosYaCreateUserBody, auth_client: Client = Depends(auth_with_api_key)
@@ -46,4 +46,4 @@ async def post_pedidosya_create_user(
         source=body.source,
         worker_id=body.worker_id,
     )
-    return user
+    return SucessfullLogin(user_id=user.cuid)

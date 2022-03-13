@@ -3,6 +3,11 @@
 The goal of this project architecture is to overcome Palenca's main development pain points
 
 
+
+## Architecture
+![](docs/palenca_architecture.png?raw=true)
+
+
 ## Requirements
 - [Docker](https://www.docker.com/get-started)
 - [pre-commit](https://pre-commit.com) (see [code formatting](#code-formatting) section)
@@ -106,20 +111,20 @@ pre-commit install
 api                      # API Project following Clean Architecture (see section below)
    |-- app.py            # Main application start point
    |-- data              # Models, Repositories, Fakers
-       |-- test
+       |-- tests
    |-- domain            # Entities, enums, adapters, usecases
-       |-- test
+       |-- tests
    |-- presentation      # Resources, response models and validations
-       |-- test
+       |-- tests
    |-- misc              # Config and utils
    |-- requirements      # Project requirements. See section below
 
 mock                     # Mock API Project following Clean Architecture (see section below)
    |-- <sub_app>         # One folder for each sub app following Clean Architecture (see section below)
        |-- domain        # Entities, enums, adapters, usecases
-           |-- test
+           |-- tests
        |-- presentation  # Resources, response models and validations
-           |-- test
+           |-- tests
    |-- requirements      # Project requirements. See section below
    |-- misc              # Config and utils
 

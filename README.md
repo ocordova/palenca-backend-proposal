@@ -144,6 +144,8 @@ mock                     # Mock API Project following Clean Architecture (see se
            |-- tests
    |-- misc              # Config and utils
 requirements             # Both projects requirements. See section below
+docs                     # Markdown files for documentation
+
 ```
 
 ## Requirements

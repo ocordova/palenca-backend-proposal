@@ -1,0 +1,23 @@
+{
+    "routes": [{
+        "title": "Documentation",
+        "heading": true,
+        "routes": [{
+                "title": "Getting Started",
+                "path": "/docs/getting-started.md"
+            },
+            {
+                "title": "Basic Features",
+                "routes": [{
+                        "title": "Authentication",
+                        "path": "/docs/basic-features/authentication.md"
+                    },
+                    {
+                        "title": "Countries",
+                        "path": "/docs/basic-features/countries.md"
+                    }
+                ]
+            }
+        ]
+    }]
+}

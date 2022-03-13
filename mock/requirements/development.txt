@@ -1,6 +1,0 @@
--r base.txt
--r testing.txt
-black==22.1.0
-ipython==7.20.0
-
-mypy==0.931

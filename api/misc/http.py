@@ -1,5 +1,4 @@
 import asyncio
-from multiprocessing.connection import Client
 from sentry_sdk import capture_exception
 
 from aiohttp import ClientSession, ClientTimeout, TCPConnector, ClientResponse

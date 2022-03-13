@@ -9,9 +9,9 @@ RUN mkdir -p /opt/api
 
 WORKDIR /opt/api
 
-ADD api/requirements api/requirements
+ADD requirements requirements
 
-RUN pip install -r api/requirements/development.txt
+RUN pip install -r requirements/development.txt
 
 ENV ENVIRONMENT development
 ENV SENTRY_URI http://sentry.io

@@ -1,3 +1,6 @@
+from pydantic import BaseModel, ValidationError, validator
+from sentry_sdk import capture_exception
+
 from api.domain.enums import CountryCode
 from api.misc.http import HTTPClient
 from api.misc.config import environment
@@ -8,6 +11,8 @@ from api.domain.exceptions import (
     InvalidCredentialsException,
     PlatformConnectivityException,
 )
+from mock.pedidosya.presentation.validations import LoginBody
+from mock.pedidosya.presentation.resources import SucessfullLogin
 
 
 async def repo_pedidosya_login(
@@ -18,7 +23,7 @@ async def repo_pedidosya_login(
     if environment.is_development_or_sandbox:
         url = f"{environment.MOCK_URI}/pedidosya/login"
 
-    # Type checking with mock classes (?)
+    # We can do the same that we do with LoginBody
     headers = {
         "Accept": "*/*",
         "Time-Zone": "America/Mexico_City",
@@ -26,18 +31,20 @@ async def repo_pedidosya_login(
         "User-Agent": "Roadrunner/IOS/194/3.2201.2",
     }
 
-    body = {"user": {"user_name": email, "password": password}}
+    body = LoginBody(**{"user": {"user_name": email, "password": password}})
 
     try:
-
-        login = await HTTPClient.post(url=url, headers=headers, body=body)
-        platform_login = pedidos_ya_login_adapter(login=login)
+        response = await HTTPClient.post(url=url, headers=headers, body=body.dict())
+        sucessful_login = SucessfullLogin(**response)
+        platform_login = pedidos_ya_login_adapter(sucessful_login=sucessful_login)
 
     except UnauthorizedException:
         raise InvalidCredentialsException()
-
+    except ValidationError as e:
+        # This means the response from the 3rd party changed
+        capture_exception(e)
+        raise PlatformConnectivityException()
     except Exception as e:
-        print(e)
         raise PlatformConnectivityException()
 
     return platform_login

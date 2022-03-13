@@ -15,11 +15,12 @@ from api.data.postgres_repositories import (
     repo_get_latest_user_app_login,
     repo_get_platform_by_code,
     repo_get_user_by_client_and_user,
+    repo_save_app_login_access_token,
 )
-from api.domain.entities import AppLogin, Client, Platform, User
+from api.data.postgres_models import AppLoginPostgres
+from api.domain.entities import AppLogin, Client, Platform, User, AppLoginExtraData
 from api.domain.enums import AppLoginStatus, CountryCode, PlatformCode
 from api.domain.exceptions import NotFoundException
-from api.misc.utils import create_cuid
 
 
 class TestRepository:
@@ -104,6 +105,17 @@ class TestRepository:
         assert app_login.user_id == user_id
 
     @pytest.mark.asyncio
+    async def test_repo_get_latest_user_app_login_none(self):
+
+        app_login = await repo_get_latest_user_app_login(
+            user_id=1,
+            platform=PlatformCode.PEDIDOSYA,
+            login="login",
+        )
+
+        assert app_login is None
+
+    @pytest.mark.asyncio
     async def test_repo_create_app_login(self):
         user_id = 33
         client_id = 2
@@ -120,6 +132,7 @@ class TestRepository:
             status=AppLoginStatus.CREATED,
             created_at=datetime.datetime.utcnow(),
             updated_at=datetime.datetime.utcnow(),
+            extra_data=AppLoginExtraData(key="key"),
         )
         app_login = await repo_create_app_login(app_login=to_create)
 
@@ -136,3 +149,42 @@ class TestRepository:
 
         assert isinstance(platform, Platform)
         assert platform.code == code
+
+    @pytest.mark.asyncio
+    async def test_repo_get_platform_by_code_none(self):
+        code = PlatformCode.PEDIDOSYA
+
+        platform = await repo_get_platform_by_code(code=code)
+
+        assert platform is None
+
+    @pytest.mark.asyncio
+    async def test_repo_save_app_login_access_token(self):
+        user_id = 33
+        client_id = 2
+        app_login_id = 91
+
+        await UserPostgresFaker.create(id=user_id)
+        await ClientPostgresFaker.create(id=client_id)
+        await AppLoginPostgresFaker.create(id=app_login_id)
+
+        to_update = AppLogin(
+            id=app_login_id,
+            client_id=client_id,
+            user_id=user_id,
+            country=CountryCode.MEXICO,
+            platform=PlatformCode.PEDIDOSYA,
+            login="jane.doe@gmail.com",
+            status=AppLoginStatus.CREATED,
+            created_at=datetime.datetime.utcnow(),
+            updated_at=datetime.datetime.utcnow(),
+        )
+
+        await repo_save_app_login_access_token(
+            app_login=to_update, access_token="token"
+        )
+
+        result = await AppLoginPostgres.get_or_none(id=app_login_id)
+
+        assert result.id == app_login_id
+        assert result.access_token == "token"

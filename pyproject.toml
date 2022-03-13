@@ -1,4 +1,4 @@
 [tool.aerich]
 tortoise_orm = "api.misc.config.TORTOISE_ORM"
-location = "./migrations"
+location = "./api/migrations"
 src_folder = "./."

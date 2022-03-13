@@ -46,7 +46,7 @@ class User(BaseModel):
     extra_data: Optional[UserExtraData] = None
 
 
-class AppLoginExtraData(BaseModel):
+class AppLoginExtraData(dict):
     key: Optional[str] = None
 
 

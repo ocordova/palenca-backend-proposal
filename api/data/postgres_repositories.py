@@ -104,6 +104,5 @@ async def repo_save_app_login_access_token(
 ) -> None:
 
     login = await AppLoginPostgres.get_or_none(id=app_login.id)
-    if login is not None:
-        login.access_token = access_token
-        await login.save(update_fields=["access_token"])
+    login.access_token = access_token
+    await login.save(update_fields=["access_token"])

@@ -9,9 +9,9 @@ RUN mkdir -p /opt/api
 
 WORKDIR /opt/api
 
-ADD mock/requirements mock/requirements
+ADD requirements requirements
 
-RUN pip install -r mock/requirements/development.txt
+RUN pip install -r requirements/development.txt
 
 ENV SENTRY_URI http://sentry.io
 ENV DOCUMENTATION_URI https://developers.palenca.com

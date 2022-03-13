@@ -1,8 +1,0 @@
-
--r base.txt
-hypothesis==6.38.0
-pytest==7.0.1
-pytest-asyncio==0.18.1
-pytest-cov==3.0.0
-pytest-timeout==2.1.0
-pytest-xdist==2.5.0

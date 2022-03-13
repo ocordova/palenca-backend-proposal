@@ -49,7 +49,7 @@ TORTOISE_ORM = {
     "connections": {"default": environment.POSTGRES_URI},
     "apps": {
         "models": {
-            "models": ["api.data.postgres_models", "aerich.models"],
+            "models": ["api.data.postgres_models", "api.aerich.models"],
             "default_connection": "default",
         },
     },

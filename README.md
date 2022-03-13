@@ -8,6 +8,7 @@ With this proposal, I solve this pain points:
 - API documentation that always matches the code
 - Easy API versioning implementation
 - Easy implementation of different authentication types
+- Detect if the 3rd party apps response schema changed
 - Isolate sandbox from production
 - Sandbox environment with isolated widget, api, sockets and webhooks
 - Documentation of third party api dependencies

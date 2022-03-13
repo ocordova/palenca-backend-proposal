@@ -23,7 +23,7 @@ async def repo_pedidosya_login(
     if environment.is_development_or_sandbox:
         url = f"{environment.MOCK_URI}/pedidosya/login"
 
-    # We can do the same that we do with LoginBody
+    # If we enforce the headers in the mock api, we can create the instance of that model
     headers = {
         "Accept": "*/*",
         "Time-Zone": "America/Mexico_City",

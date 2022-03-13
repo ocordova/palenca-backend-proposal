@@ -7,12 +7,26 @@ The goal of this project architecture is to overcome Palenca's main development 
 - [Docker](https://www.docker.com/get-started)
 - [pre-commit](https://pre-commit.com)
 
-## Steps to run the project
+## Steps to run the api
 
 ```bash
 docker build -t palenca_api -f Dockerfile.development .
-docker run -it -v "$(pwd)":/opt/api:cached -p 9000:9000 palenca_api /bin/bash -l
+docker run -it -v "$(pwd)":/opt/api:cached -p 8000:8000 palenca_api /bin/bash -l
 python -m api.app
+```
+
+## Steps to run the mock api
+
+```bash+
+docker build -t mock -f Dockerfile.mock.development .
+docker run -it -v "$(pwd)":/opt/api:cached -p 9000:9000 mock /bin/bash -l
+python -m mock.app
+```
+
+## Steps to run the both
+
+```bash
+docker-compose up
 ```
 
 ## Run tests

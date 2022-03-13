@@ -3,7 +3,7 @@ from typing import Dict, List, Optional
 
 from pydantic import BaseModel
 
-from .enums import (
+from api.domain.enums import (
     AppLoginFailedReason,
     AppLoginStatus,
     CountryCode,
@@ -77,3 +77,7 @@ class Platform(BaseModel):
     available_countries = [CountryCode]
     created_at: datetime.datetime
     updated_at: datetime.datetime
+
+
+class PlatformJWTLogin(BaseModel):
+    jwt_token: str

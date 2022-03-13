@@ -2,11 +2,11 @@ from typing import Optional
 
 from pydantic import BaseModel, EmailStr
 
-from ..domain.enums import CountryCode, Source
+from api.domain.enums import CountryCode, Source
 
 
 class PedidosYaCreateUserBody(BaseModel):
-    cuid: str
+    user_id: str
     country: CountryCode
     email: EmailStr
     password: str

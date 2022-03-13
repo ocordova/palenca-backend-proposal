@@ -9,16 +9,17 @@ RUN mkdir -p /opt/api
 
 WORKDIR /opt/api
 
-ADD requirements requirements
+ADD api/requirements api/requirements
 
-RUN pip install -r requirements/development.txt
+RUN pip install -r api/requirements/development.txt
 
 ENV ENVIRONMENT development
 ENV SENTRY_URI http://sentry.io
-ENV POSTGRES_URI postgres://neue:3tXiNAoo9AhzdjHrDBHs@neue-db.cyil70uvq8m0.us-east-2.rds.amazonaws.com:5432/postgres
-# ENV POSTGRES_URI postgres://postgres:@host.docker.internal:5432/palenca_neue
+ENV postgres_uri postgres://neue:3tXiNAoo9AhzdjHrDBHs@neue-db.cyil70uvq8m0.us-east-2.rds.amazonaws.com:5432/postgres
+# ENV postgres_uri postgres://postgres:@host.docker.internal:5432/palenca_neue
 ENV DOCUMENTATION_URI https://developers.palenca.com
+ENV MOCK_URI http://localhost:9000
 ENV SIZE_POOL_AIOHTTP 100
-ENV PORT 9000
+ENV PORT 8000
 
-EXPOSE 9000
+EXPOSE 8000

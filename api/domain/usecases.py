@@ -1,18 +1,29 @@
 import datetime
+from os import access
 from platform import platform
 
-from ..data.postgres_repositories import (
+from api.data.postgres_repositories import (
     repo_create_app_login,
     repo_create_user,
     repo_get_latest_user_app_login,
     repo_get_platform_by_code,
     repo_get_user_by_client_and_user,
-    repo_pedidosya_login,
+    repo_save_app_login_access_token,
 )
-from ..domain.entities import AppLogin, Client, User
-from ..domain.enums import AppLoginStatus, CountryCode, PlatformCode, Source
-from ..domain.exceptions import PlatformUnavailableInCountryException
-from ..misc.utils import create_cuid
+from api.data.http_repositories import repo_pedidosya_login
+from api.domain.entities import AppLogin, Client, User
+from api.domain.enums import (
+    AppLoginStatus,
+    CountryCode,
+    PlatformCode,
+    PlatformStatus,
+    Source,
+)
+from api.domain.exceptions import (
+    PlatformUnavailableInCountryException,
+    PlatformIsNotOperatingException,
+)
+from api.misc.utils import create_cuid
 
 
 async def create_or_get_user(client: Client, user_cuid: str = None) -> User:
@@ -69,18 +80,18 @@ async def create_or_get_app_login(
     return app_login
 
 
-async def login_pedidos_ya(*, app_login: AppLogin) -> None:
+async def check_platform_availability(
+    *, code: PlatformCode, country: CountryCode
+) -> None:
+    platform = await repo_get_platform_by_code(code=code)
 
-    platform = await repo_get_platform_by_code(app_login.platform)
+    if platform and platform.status == PlatformStatus.NOT_OPERATING:
+        raise PlatformIsNotOperatingException(documentation_url="#platform_status")
 
-    if platform and app_login.country not in platform.available_countries:
+    if platform and country not in platform.available_countries:
         raise PlatformUnavailableInCountryException(
-            documentation_url="#pedidosya_available_countries"
+            documentation_url="#pedidosya__available_countries"
         )
-    assert app_login.password is not None
-    return await repo_pedidosya_login(
-        country=app_login.country, email=app_login.login, password=app_login.password
-    )
 
 
 async def pedidosya_create_user(
@@ -94,6 +105,7 @@ async def pedidosya_create_user(
     worker_id: str
 ) -> User:
 
+    await check_platform_availability(code=PlatformCode.PEDIDOSYA, country=country)
     user = await create_or_get_user(client=auth_client, user_cuid=user_cuid)
     app_login = await create_or_get_app_login(
         client=auth_client,
@@ -104,6 +116,17 @@ async def pedidosya_create_user(
         password=password,
         source=source,
         worker_id=worker_id,
+    )
+
+    # Pass MyPy Optional. We probably need AppLoginJWTPAssword entity that inherits from AppLogin
+    # Because we have a lot of optional/required combinations
+    assert isinstance(app_login.password, str)
+    login = await repo_pedidosya_login(
+        country=app_login.country, email=app_login.login, password=app_login.password
+    )
+
+    await repo_save_app_login_access_token(
+        app_login=app_login, access_token=login.jwt_token
     )
 
     return user

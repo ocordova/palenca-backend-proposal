@@ -1,16 +1,16 @@
 from typing import Optional
 
-from api.domain.enums import CountryCode, PlatformCode
+from api.domain.enums import PlatformCode
 
-from ..domain.postgres_adapters import (
+from api.domain.postgres_adapters import (
     app_login_postgres_adapter,
     client_postgres_adapter,
     platform_postgres_adapter,
     user_postgres_adapter,
 )
-from ..domain.entities import AppLogin, Client, Platform, User
-from ..domain.exceptions import NotFoundException
-from .postgres_models import (
+from api.domain.entities import AppLogin, Client, Platform, User
+from api.domain.exceptions import NotFoundException
+from api.data.postgres_models import (
     AppLoginPostgres,
     ClientPostgres,
     PlatformPostgres,
@@ -99,7 +99,11 @@ async def repo_get_platform_by_code(code: PlatformCode) -> Optional[Platform]:
     return platform_postgres_adapter(platform=platform)
 
 
-async def repo_pedidosya_login(
-    *, country: CountryCode, email: str, password: str
+async def repo_save_app_login_access_token(
+    app_login: AppLogin, access_token: str
 ) -> None:
-    pass
+
+    login = await AppLoginPostgres.get_or_none(id=app_login.id)
+    if login is not None:
+        login.access_token = access_token
+        await login.save(update_fields=["access_token"])

@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile.development
+    environment:
+      - MOCK_URI=http://mock:9000
+    command: python -m api.app
+    volumes:
+      - ".:/opt/api"
+    ports:
+      - "8000:8000"
+    tty: true
+    networks:
+      - app-network
+
+  mock:
+    container_name: mock
+    build:
+      context: .
+      dockerfile: Dockerfile.mock.development
+    command: python -m mock.app
+    volumes:
+      - ".:/opt/api"
+    ports:
+      - "9000:9000"
+    tty: true
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

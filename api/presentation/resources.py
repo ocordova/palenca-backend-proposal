@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, status
 
-from ..domain.entities import Client
-from ..domain.enums import PlatformCode
-from ..domain.usecases import pedidosya_create_user
-from ..misc.fastapi import auth_with_api_key
-from .responses import HealthResponse, OTPSentSuccessfullyResponse
-from .validations import PedidosYaCreateUserBody
+from api.domain.entities import Client
+from api.domain.enums import PlatformCode
+from api.domain.usecases import pedidosya_create_user
+from api.misc.fastapi import auth_with_api_key
+from api.presentation.responses import HealthResponse, SucessfullLogin
+from api.presentation.validations import PedidosYaCreateUserBody
 
 PEDIDOSYA_URI = PlatformCode.PEDIDOSYA.value
 
@@ -32,13 +32,13 @@ def get_health_check_resource():
     summary="Create pedidos ya user",
     description="Endpoint to create a new pedidos ya user",
     status_code=status.HTTP_200_OK,
-    responses={status.HTTP_200_OK: {"model": OTPSentSuccessfullyResponse}},
+    responses={status.HTTP_200_OK: {"model": SucessfullLogin}},
 )
 async def post_pedidosya_create_user(
     *, body: PedidosYaCreateUserBody, auth_client: Client = Depends(auth_with_api_key)
 ):
     user = await pedidosya_create_user(
-        user_cuid=body.cuid,
+        user_cuid=body.user_id,
         email=body.email,
         password=body.password,
         country=body.country,
@@ -46,4 +46,4 @@ async def post_pedidosya_create_user(
         source=body.source,
         worker_id=body.worker_id,
     )
-    return user
+    return SucessfullLogin(user_id=user.cuid)

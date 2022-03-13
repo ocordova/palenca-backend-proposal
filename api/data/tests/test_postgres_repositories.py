@@ -8,7 +8,6 @@ from api.data.fakers import (
     PlatformPostgresFaker,
     UserPostgresFaker,
 )
-from api.data.postgres_models import UserPostgres
 from api.data.postgres_repositories import (
     repo_create_app_login,
     repo_create_user,
@@ -38,7 +37,7 @@ class TestRepository:
     async def test_repo_get_client_by_api_key_not_found(self):
 
         with pytest.raises(NotFoundException):
-            result = await repo_get_client_by_api_key(api_key="mock_api_key")
+            result = await repo_get_client_by_api_key(api_key="mock_key")
 
             assert result is None
 

@@ -1,14 +1,14 @@
 from enum import Enum
 
-from pydantic import BaseSettings, HttpUrl, PostgresDsn
+from pydantic import BaseSettings, HttpUrl, PostgresDsn, AnyHttpUrl
 
 
 class EnvName(Enum):
-    PRODUCTION = "production"
-    STAGING = "staging"
-    DEVELOPMENT = "development"
-    TESTING = "testing"
-    SANDBOX = "sandbox"
+    production = "production"
+    staging = "staging"
+    development = "development"
+    testing = "testing"
+    sandbox = "sandbox"
 
 
 class EnvironmentSettings(BaseSettings):
@@ -17,22 +17,29 @@ class EnvironmentSettings(BaseSettings):
     POSTGRES_URI: PostgresDsn
     PORT: int
     DOCUMENTATION_URI: HttpUrl
+    MOCK_URI: AnyHttpUrl
     SIZE_POOL_AIOHTTP: int
 
     def is_production(self):
-        return self.ENVIRONMENT.value == EnvName.DEVELOPMENT.value
+        return self.ENVIRONMENT.value == EnvName.development.value
 
     def is_staging(self):
-        return self.ENVIRONMENT.value == EnvName.STAGING.value
+        return self.ENVIRONMENT.value == EnvName.staging.value
 
     def is_development(self):
-        return self.ENVIRONMENT.value == EnvName.DEVELOPMENT.value
+        return self.ENVIRONMENT.value == EnvName.development.value
 
     def is_testing(self):
-        return self.ENVIRONMENT.value == EnvName.TESTING.value
+        return self.ENVIRONMENT.value == EnvName.testing.value
 
     def is_sandbox(self):
-        return self.ENVIRONMENT.value == EnvName.SANDBOX.value
+        return self.ENVIRONMENT.value == EnvName.sandbox.value
+
+    def is_development_or_sandbox(self):
+        return self.ENVIRONMENT.value in [
+            EnvName.development.value,
+            EnvName.sandbox.value,
+        ]
 
 
 environment = EnvironmentSettings()

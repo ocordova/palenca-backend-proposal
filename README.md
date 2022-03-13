@@ -1,12 +1,24 @@
-# Proposal of API project (WIP)
+# Proposal of API project
 
-The goal of this project architecture is to overcome Palenca's main development pain points
+With this proposal, I solve this pain points:
 
-
+- Remove mix of database and business rules
+- Remove dependency of database models
+- Same error response schemas
+- API documentation that always matches the code
+- Easy API versioning implementation
+- Easy implementation of different authentication types
+- Isolate sandbox from production
+- Sandbox environment with isolated widget, api, sockets and webhooks
+- Documentation of third party api dependencies
+- Easier testing with unit test and integrations tests
 
 ## Architecture
 ![](docs/palenca_architecture.png?raw=true)
 
+
+## Git Repos
+![](docs/palenca_repos.png?raw=true)
 
 ## Requirements
 - [Docker](https://www.docker.com/get-started)

@@ -5,6 +5,7 @@ from fastapi.security import APIKeyHeader
 from api.data.postgres_repositories import repo_get_client_by_api_key
 from api.domain.entities import Client
 from api.domain.exceptions import (
+    BaseException,
     BusinessException,
     ForbiddenException,
     InternalServerException,
@@ -27,6 +28,7 @@ async def auth_with_api_key(api_key: str = Depends(X_API_KEY)) -> Client:
 
 
 async def catch_exceptions_middleware(request: Request, call_next):
+
     try:
         return await call_next(request)
     except UnauthorizedException as e:

@@ -72,6 +72,7 @@ async def create_or_get_app_login(
 
     app_login = latest_login
 
+    # TODO Encrypt password
     if not app_login:
         to_create = AppLogin(
             client_id=client.id,
@@ -148,6 +149,7 @@ async def pedidosya_create_user(
         source=source,
         worker_id=worker_id,
     )
+    # TODO: Decrypting password before using
 
     # Pass MyPy Optional. We probably need AppLoginJWTPAssword entity that inherits from AppLogin
     # Because we have a lot of optional/required combinations

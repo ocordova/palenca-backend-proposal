@@ -1,7 +1,3 @@
-from email import message
-from typing import Any, Dict, Union
-
-
 class BaseException(Exception):
     """
     Base exception envelope
@@ -13,9 +9,9 @@ class BaseException(Exception):
     def __init__(self, status=None, message=None) -> None:
         super().__init__(status, message)
 
-    def serialize(self) -> Dict[str, Any]:
+    def serialize(self) -> dict[str, int | str]:
         """Serializes into a dictionary the exception, useful for JSON responses"""
-        data: Dict[str, Any] = {
+        data: dict[str, int | str] = {
             "message": self.message,
         }
 

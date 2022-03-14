@@ -1,6 +1,5 @@
 import asyncio
 from socket import AF_INET
-from typing import Any, Optional
 
 from aiohttp import ClientResponse, ClientSession, ClientTimeout, TCPConnector
 from sentry_sdk import capture_exception
@@ -16,8 +15,8 @@ from api.misc.http.exceptions import (
 
 
 class HTTPClient:
-    sem: Optional[asyncio.Semaphore] = None
-    aiohttp_client: Optional[ClientSession] = None
+    sem: asyncio.Semaphore | None = None
+    aiohttp_client: ClientSession | None = None
 
     @classmethod
     def get_aiohttp_client(cls) -> ClientSession:
@@ -56,9 +55,9 @@ class HTTPClient:
         raise InternalServerHTTPException()
 
     @classmethod
-    async def handle_success_response(cls, response: ClientResponse):
+    async def handle_success_response(cls, response: ClientResponse) -> dict:
         try:
-            json_result = await response.json()
+            json_result: dict = await response.json()
         except Exception as e:
             cls.handle_unknown_exceptions(exception=e)
         return json_result
@@ -68,8 +67,8 @@ class HTTPClient:
         cls,
         url: str,
         body: dict = None,
-        headers: Optional[dict] = None,
-    ) -> Any:
+        headers: dict | None = None,
+    ) -> dict:
         client = cls.get_aiohttp_client()
 
         try:

@@ -4,7 +4,11 @@ from api.domain.entities import Client
 from api.domain.enums import PlatformCode
 from api.domain.usecases import pedidosya_create_user
 from api.misc.fastapi import auth_with_api_key
-from api.presentation.responses import HealthResponse, SucessfullLogin
+from api.presentation.responses import (
+    CreateUserExceptionResponse,
+    HealthResponse,
+    SucessfullLoginResponse,
+)
 from api.presentation.validations import PedidosYaCreateUserBody
 
 PEDIDOSYA_URI = PlatformCode.PEDIDOSYA.value
@@ -27,13 +31,18 @@ def get_health_check_resource():
     return HealthResponse(status=status.HTTP_200_OK)
 
 
+# TODO: Find a way to return multiple examples from one status
 @pedidosya_router.post(
     "/create-user",
     summary="Create pedidos ya user",
     description="Endpoint to create a new pedidos ya user",
     status_code=status.HTTP_200_OK,
-    responses={status.HTTP_200_OK: {"model": SucessfullLogin}},
+    responses={
+        status.HTTP_200_OK: {"model": SucessfullLoginResponse},
+        status.HTTP_400_BAD_REQUEST: {"model": CreateUserExceptionResponse},
+    },
 )
+# TODO Try to use a decorator instead of the Depends, but it needs to be detected by the swagger generator
 async def post_pedidosya_create_user(
     *, body: PedidosYaCreateUserBody, auth_client: Client = Depends(auth_with_api_key)
 ):
@@ -46,4 +55,4 @@ async def post_pedidosya_create_user(
         source=body.source,
         worker_id=body.worker_id,
     )
-    return SucessfullLogin(user_id=user.cuid)
+    return SucessfullLoginResponse(user_id=user.cuid)

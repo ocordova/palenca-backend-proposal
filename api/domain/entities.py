@@ -1,5 +1,4 @@
 import datetime
-from typing import Dict, List, Optional
 
 from pydantic import BaseModel
 
@@ -15,8 +14,8 @@ from api.domain.enums import (
 
 
 class ClientExtraData(BaseModel):
-    redirect_url: Optional[str]
-    sheet_id: Optional[str]
+    redirect_url: str | None = None
+    sheet_id: str | None = None
 
 
 class Client(BaseModel):
@@ -26,15 +25,15 @@ class Client(BaseModel):
     api_key: str
     company_name: str
     logo_url: str
-    platforms: List[PlatformCode]
+    platforms: list[PlatformCode]
     created_at: datetime.datetime
     updated_at: datetime.datetime
-    webhook_url: Optional[str] = None
-    extra_data: Optional[ClientExtraData] = None
+    webhook_url: str | None = None
+    extra_data: ClientExtraData | None = None
 
 
 class UserExtraData(BaseModel):
-    purpose: Optional[UserPurpose] = None
+    purpose: UserPurpose | None = None
 
 
 class User(BaseModel):
@@ -43,11 +42,11 @@ class User(BaseModel):
     client: Client
     created_at: datetime.datetime
     updated_at: datetime.datetime
-    extra_data: Optional[UserExtraData] = None
+    extra_data: UserExtraData | None = None
 
 
 class AppLoginExtraData(dict):
-    key: Optional[str] = None
+    key: str | None = None
 
 
 class AppLogin(BaseModel):
@@ -59,15 +58,15 @@ class AppLogin(BaseModel):
     status: AppLoginStatus
     created_at: datetime.datetime
     updated_at: datetime.datetime
-    id: Optional[int] = None
-    password: Optional[str] = None
-    worker_id: Optional[str] = None
-    source: Optional[Source] = None
-    failed_reason: Optional[AppLoginFailedReason] = None
-    expiration_date: Optional[datetime.datetime] = None
-    access_token: Optional[str] = None
-    refresh_token: Optional[str] = None
-    extra_data: Optional[AppLoginExtraData] = None
+    id: int | None = None
+    password: str | None = None
+    worker_id: str | None = None
+    source: Source | None = None
+    failed_reason: AppLoginFailedReason | None = None
+    expiration_date: datetime.datetime | None = None
+    access_token: str | None = None
+    refresh_token: str | None = None
+    extra_data: AppLoginExtraData | None = None
 
 
 class Platform(BaseModel):

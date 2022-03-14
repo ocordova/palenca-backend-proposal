@@ -1,5 +1,3 @@
-from typing import Optional
-
 from api.data.postgres_models import (
     AppLoginPostgres,
     ClientPostgres,
@@ -32,7 +30,7 @@ async def repo_get_client_by_api_key(*, api_key: str) -> Client:
 
 async def repo_get_user_by_client_and_user(
     *, client_id: int, user_cuid: str
-) -> Optional[User]:
+) -> User | None:
     user = await UserPostgres.get_or_none(
         cuid=user_cuid, client_id=client_id
     ).prefetch_related("client")
@@ -51,7 +49,7 @@ async def repo_create_user(*, client: Client, user_cuid: str) -> User:
 
 async def repo_get_latest_user_app_login(
     *, user_id: int, platform=PlatformCode, login: str
-) -> Optional[AppLogin]:
+) -> AppLogin | None:
     app_login = await AppLoginPostgres.get_or_none(
         user_id=user_id, platform=platform.value, login=login
     )
@@ -89,7 +87,7 @@ async def repo_create_app_login(app_login: AppLogin) -> AppLogin:
     return app_login_postgres_adapter(app_login=app_login_postgres)
 
 
-async def repo_get_platform_by_code(code: PlatformCode) -> Optional[Platform]:
+async def repo_get_platform_by_code(code: PlatformCode) -> Platform | None:
     platform = await PlatformPostgres.get_or_none(code=code.value)
 
     if platform is None:

@@ -1,5 +1,3 @@
-from typing import Any, Dict
-
 from api.misc.config import environment
 
 
@@ -22,7 +20,7 @@ class BaseException(Exception):
         else:
             self.documentation_url = ""
 
-    def serialize(self) -> Dict[str, Any]:
+    def serialize(self) -> dict[str, str]:
         """Serializes into a dictionary the exception, useful for JSON responses"""
         data = {
             "code": self.code,

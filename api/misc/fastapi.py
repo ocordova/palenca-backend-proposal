@@ -5,12 +5,12 @@ from fastapi.security import APIKeyHeader
 from api.data.postgres_repositories import repo_get_client_by_api_key
 from api.domain.entities import Client
 from api.domain.exceptions import (
-    ForbiddenException,
-    NotFoundException,
-    UnauthorizedException,
-    TooManyRequestsException,
-    InternalServerException,
     BusinessException,
+    ForbiddenException,
+    InternalServerException,
+    NotFoundException,
+    TooManyRequestsException,
+    UnauthorizedException,
 )
 
 X_API_KEY = APIKeyHeader(name="X-API-Key")

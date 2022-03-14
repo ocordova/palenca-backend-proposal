@@ -8,6 +8,7 @@ from api.data.fakers import (
     PlatformPostgresFaker,
     UserPostgresFaker,
 )
+from api.data.postgres_models import AppLoginPostgres
 from api.data.postgres_repositories import (
     repo_create_app_login,
     repo_create_user,
@@ -17,8 +18,7 @@ from api.data.postgres_repositories import (
     repo_get_user_by_client_and_user,
     repo_save_app_login_access_token,
 )
-from api.data.postgres_models import AppLoginPostgres
-from api.domain.entities import AppLogin, Client, Platform, User, AppLoginExtraData
+from api.domain.entities import AppLogin, AppLoginExtraData, Client, Platform, User
 from api.domain.enums import AppLoginStatus, CountryCode, PlatformCode
 from api.domain.exceptions import NotFoundException
 

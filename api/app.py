@@ -1,14 +1,12 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.logger import logger
-
 from tortoise.contrib.fastapi import register_tortoise
 
 from api.misc.config import TORTOISE_ORM, environment
-from api.misc.http import HTTPClient
 from api.misc.fastapi import catch_exceptions_middleware
+from api.misc.http.client import HTTPClient
 from api.presentation.resources import health_router, pedidosya_router
-
 
 fastAPILogger = logger
 

@@ -1,18 +1,18 @@
 import asyncio
+from socket import AF_INET
+from typing import Any, Optional
+
+from aiohttp import ClientResponse, ClientSession, ClientTimeout, TCPConnector
 from sentry_sdk import capture_exception
 
-from aiohttp import ClientSession, ClientTimeout, TCPConnector, ClientResponse
-from typing import Optional, Any
-from socket import AF_INET
-
-from api.domain.exceptions import (
-    InternalServerException,
-    NotFoundException,
-    UnauthorizedException,
-    ForbiddenException,
-    TooManyRequestsException,
-)
 from api.misc.config import environment
+from api.misc.http.exceptions import (
+    ForbiddenHTTPException,
+    InternalServerHTTPException,
+    NotFoundHTTPException,
+    TooManyRequestsHTTPException,
+    UnauthorizedHTTPException,
+)
 
 
 class HTTPClient:
@@ -40,20 +40,20 @@ class HTTPClient:
     def handle_unknown_exceptions(cls, exception: Exception):
         if environment.is_production():
             capture_exception(exception)
-        raise InternalServerException()
+        raise InternalServerHTTPException()
 
     @classmethod
     def handle_client_errors(cls, response: ClientResponse):
         status = response.status
         if status == 401:
-            raise UnauthorizedException()
+            raise UnauthorizedHTTPException()
         if status == 403:
-            raise ForbiddenException()
+            raise ForbiddenHTTPException()
         if status == 404:
-            raise NotFoundException()
+            raise NotFoundHTTPException()
         if status == 429:
-            raise TooManyRequestsException()
-        raise InternalServerException()
+            raise TooManyRequestsHTTPException()
+        raise InternalServerHTTPException()
 
     @classmethod
     async def handle_success_response(cls, response: ClientResponse):

@@ -1,7 +1,7 @@
 from mock.misc.credentials import VALID_EMAIL_PASSWORD_CREDENTIALS
-from mock.pedidosya.domain.fakers import AuthenticationFactory
-from mock.pedidosya.domain.exceptions import UnauthorizedException
 from mock.pedidosya.domain.entities import Authentication
+from mock.pedidosya.domain.exceptions import UnauthorizedException
+from mock.pedidosya.domain.fakers import AuthenticationFactory
 
 
 def pedidos_ya_login(email: str, password: str) -> Authentication:

@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends, status
-from mock.pedidosya.presentation.responses import SucessfullLogin
-from mock.pedidosya.presentation.validations import LoginBody
-
 
 from mock.pedidosya.domain.usecases import pedidos_ya_login
+from mock.pedidosya.presentation.responses import SucessfullLogin
+from mock.pedidosya.presentation.validations import LoginBody
 
 pedidosya_router = APIRouter(tags=["pedidosya"])
 

@@ -1,6 +1,6 @@
-from mock.pedidosya.domain.entities import Authentication
-
 from pydantic_factories import ModelFactory
+
+from mock.pedidosya.domain.entities import Authentication
 
 
 class AuthenticationFactory(ModelFactory):

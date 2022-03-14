@@ -1,10 +1,9 @@
 import pytest
 
-from mock.pedidosya.presentation.fakers import SucessfullLoginFactory
-from mock.pedidosya.presentation.responses import SucessfullLogin
-
 from api.domain.entities import PlatformJWTLogin
 from api.domain.http_adapters import pedidos_ya_login_adapter
+from mock.pedidosya.presentation.fakers import SucessfullLoginFactory
+from mock.pedidosya.presentation.responses import SucessfullLogin
 
 
 @pytest.mark.asyncio

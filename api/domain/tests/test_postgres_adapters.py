@@ -6,12 +6,6 @@ from api.data.fakers import (
     PlatformPostgresFaker,
     UserPostgresFaker,
 )
-from api.domain.postgres_adapters import (
-    app_login_postgres_adapter,
-    client_postgres_adapter,
-    platform_postgres_adapter,
-    user_postgres_adapter,
-)
 from api.domain.entities import (
     AppLogin,
     AppLoginExtraData,
@@ -22,6 +16,12 @@ from api.domain.entities import (
     UserExtraData,
 )
 from api.domain.enums import UserPurpose
+from api.domain.postgres_adapters import (
+    app_login_postgres_adapter,
+    client_postgres_adapter,
+    platform_postgres_adapter,
+    user_postgres_adapter,
+)
 
 
 @pytest.mark.asyncio

@@ -1,10 +1,11 @@
 from unittest.mock import patch
 
 import pytest
-from mock.pedidosya.domain.usecases import pedidos_ya_login
+
 from mock.misc.credentials import VALID_EMAIL_PASSWORD_CREDENTIALS
 from mock.pedidosya.domain.entities import Authentication
 from mock.pedidosya.domain.exceptions import UnauthorizedException
+from mock.pedidosya.domain.usecases import pedidos_ya_login
 
 
 def test_pedidos_ya_login():

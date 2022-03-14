@@ -2,6 +2,7 @@ import datetime
 from os import access
 from platform import platform
 
+from api.data.http_repositories import repo_pedidosya_login
 from api.data.postgres_repositories import (
     repo_create_app_login,
     repo_create_user,
@@ -10,7 +11,6 @@ from api.data.postgres_repositories import (
     repo_get_user_by_client_and_user,
     repo_save_app_login_access_token,
 )
-from api.data.http_repositories import repo_pedidosya_login
 from api.domain.entities import AppLogin, Client, User
 from api.domain.enums import (
     AppLoginStatus,
@@ -20,8 +20,8 @@ from api.domain.enums import (
     Source,
 )
 from api.domain.exceptions import (
-    PlatformUnavailableInCountryException,
     PlatformIsNotOperatingException,
+    PlatformUnavailableInCountryException,
 )
 from api.misc.utils import create_cuid
 

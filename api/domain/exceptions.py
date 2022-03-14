@@ -1,4 +1,3 @@
-from email import message
 from typing import Any, Dict
 
 from api.misc.config import environment
@@ -113,11 +112,6 @@ class InternalServerException(BaseException):
 
     def __init__(self, code=None, message=None, documentation_url=None) -> None:
         super().__init__(code, message, documentation_url)
-
-
-"""
-Business Expcetions
-"""
 
 
 class UnableToCreateUserException(BusinessException):

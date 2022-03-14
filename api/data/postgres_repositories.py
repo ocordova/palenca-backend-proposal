@@ -1,20 +1,19 @@
 from typing import Optional
 
-from api.domain.enums import PlatformCode
-
-from api.domain.postgres_adapters import (
-    app_login_postgres_adapter,
-    client_postgres_adapter,
-    platform_postgres_adapter,
-    user_postgres_adapter,
-)
-from api.domain.entities import AppLogin, Client, Platform, User
-from api.domain.exceptions import NotFoundException
 from api.data.postgres_models import (
     AppLoginPostgres,
     ClientPostgres,
     PlatformPostgres,
     UserPostgres,
+)
+from api.domain.entities import AppLogin, Client, Platform, User
+from api.domain.enums import PlatformCode
+from api.domain.exceptions import NotFoundException
+from api.domain.postgres_adapters import (
+    app_login_postgres_adapter,
+    client_postgres_adapter,
+    platform_postgres_adapter,
+    user_postgres_adapter,
 )
 
 

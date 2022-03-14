@@ -3,7 +3,6 @@ from fastapi import FastAPI
 from fastapi.logger import logger
 
 from mock.misc.config import environment
-
 from mock.pedidosya.app import pedidosya
 
 fastAPILogger = logger

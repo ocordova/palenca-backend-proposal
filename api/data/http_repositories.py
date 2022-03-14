@@ -1,18 +1,18 @@
 from pydantic import BaseModel, ValidationError, validator
 from sentry_sdk import capture_exception
 
-from api.domain.enums import CountryCode
-from api.misc.http import HTTPClient
-from api.misc.config import environment
 from api.domain.entities import PlatformJWTLogin
-from api.domain.http_adapters import pedidos_ya_login_adapter
+from api.domain.enums import CountryCode
 from api.domain.exceptions import (
-    UnauthorizedException,
     InvalidCredentialsException,
     PlatformConnectivityException,
 )
-from mock.pedidosya.presentation.validations import LoginBody
+from api.domain.http_adapters import pedidos_ya_login_adapter
+from api.misc.config import environment
+from api.misc.http.client import HTTPClient
+from api.misc.http.exceptions import UnauthorizedHTTPException
 from mock.pedidosya.presentation.resources import SucessfullLogin
+from mock.pedidosya.presentation.validations import LoginBody
 
 
 async def repo_pedidosya_login(
@@ -38,7 +38,7 @@ async def repo_pedidosya_login(
         sucessful_login = SucessfullLogin(**response)
         platform_login = pedidos_ya_login_adapter(sucessful_login=sucessful_login)
 
-    except UnauthorizedException:
+    except UnauthorizedHTTPException:
         raise InvalidCredentialsException()
     except ValidationError as e:
         # This means the response from the 3rd party changed

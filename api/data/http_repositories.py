@@ -18,6 +18,11 @@ from mock.pedidosya.presentation.validations import LoginBody
 async def repo_pedidosya_login(
     *, country: CountryCode, email: str, password: str
 ) -> PlatformJWTLogin:
+    """
+    :raises InvalidCredentialsException: If case the credentials are invalid
+    :raises PlatformConnectivityException: If case something wrong happens to comunicate with the platform
+    """
+
     url = f"https://{country.value}.usehurrier.com/api/mobile/auth"
 
     if environment.is_development_or_sandbox:

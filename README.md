@@ -165,6 +165,7 @@ mock                     # Mock API Project
    |-- misc              # Config and utils
 requirements             # Both projects requirements. See section below
 docs                     # Markdown files for documentation
+socket                   # Socket.io server
 
 ```
 

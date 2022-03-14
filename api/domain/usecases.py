@@ -1,6 +1,4 @@
 import datetime
-from os import access
-from platform import platform
 
 from api.data.http_repositories import repo_pedidosya_login
 from api.data.postgres_repositories import (
@@ -27,7 +25,11 @@ from api.misc.utils import create_cuid
 
 
 async def create_or_get_user(client: Client, user_cuid: str = None) -> User:
-
+    """Get users or creates a new one if one for client_id and user_id is not found
+    :param client Client: Client related to user
+    :param user_cuid str: cuid of the user
+    :return The User entity
+    """
     user = None
 
     if not user_cuid:
@@ -54,7 +56,16 @@ async def create_or_get_app_login(
     worker_id: str = None,
     source: Source = None
 ) -> AppLogin:
-
+    """Get AppLogin related to user_id, platform and login (email or phone)
+    :param client Client: Client related
+    :param country CountryCode: Country identifier
+    :param platform PlatformCode: Platform identifier
+    :param login str: Email or Phone
+    :param password str: Unencrypted password
+    :param Optional[worker_id] str: Worker identifier
+    :param Optional[source] Source: Source identifier
+    :return The AppLogin entity
+    """
     latest_login = await repo_get_latest_user_app_login(
         user_id=user.id, platform=platform, login=login
     )
@@ -83,6 +94,13 @@ async def create_or_get_app_login(
 async def check_platform_availability(
     *, code: PlatformCode, country: CountryCode
 ) -> None:
+    """Checks if the platform is operating and if its available in the country
+    :param code PlatformCode: Platform identifier
+    :param country CountryCode: Country identifier
+    :return None
+    :raises PlatformIsNotOperatingException: In case the platform is not operating
+    :raises PlatformUnavailableInCountryException: In case the platform is not available in the country
+    """
     platform = await repo_get_platform_by_code(code=code)
 
     if platform and platform.status == PlatformStatus.NOT_OPERATING:
@@ -101,10 +119,23 @@ async def pedidosya_create_user(
     email: str,
     password: str,
     country: CountryCode,
-    source: Source = None,
-    worker_id: str
+    worker_id: str,
+    source: Source = None
 ) -> User:
-
+    """Logs in to pedidos ya and saves credentials
+    :param auth_client Client: Authenticated Client
+    :param user_cuid str: User human readable identifiers
+    :param email str: User email
+    :param password str: User password
+    :param country CountryCode: Country to logged in
+    :param worker_id str: Worker identifier
+    :param source Source: Source identifier
+    :return User entity
+    :raises PlatformIsNotOperatingException: In case the platform is not operating
+    :raises PlatformUnavailableInCountryException: In case the platform is not available in the country
+    :raises InvalidCredentialsException: If case the credentials are invalid
+    :raises PlatformConnectivityException: If case something wrong happens to comunicate with the platform
+    """
     await check_platform_availability(code=PlatformCode.PEDIDOSYA, country=country)
     user = await create_or_get_user(client=auth_client, user_cuid=user_cuid)
     app_login = await create_or_get_app_login(

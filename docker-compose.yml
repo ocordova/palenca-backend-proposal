@@ -31,6 +31,22 @@ services:
     networks:
       - app-network
 
+  socket:
+    container_name: socket
+    build:
+      context: .
+      dockerfile: Dockerfile.socket.development
+    environment:
+      - PORT=3000
+    command: npm run dev
+    volumes:
+      - ".:/opt/socket"
+    ports:
+      - "3000:3000"
+    tty: true
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge

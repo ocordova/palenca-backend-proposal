@@ -1,6 +1,6 @@
 # Proposal of API project
 
-With this proposal, I solve this pain points:
+This proposal considers:
 
 - Remove mix of database and business rules
 - Remove dependency of database models
@@ -11,7 +11,7 @@ With this proposal, I solve this pain points:
 - Detect if the 3rd party APIs response schema changed
 - Isolate sandbox from production
 - Documentation of 3rd party api dependencies
-- Easier testing with unit test and integrations tests
+- Easier testing with unit test and integrations tests (no more json files)
 
 ## Architecture
 
@@ -174,7 +174,7 @@ socket                   # Socket.io server
 - [FastAPI](https://fastapi.tiangolo.com/): Web framwork for the API
     endpoints, OpenAPI Documentation and Request validation
 - [Tortoise ORM](https://tortoise-orm.readthedocs.io/en/latest/): asyncio ORM
-    for Postgres
+    for Postgres (Example)
 - [Aerich](https://github.com/tortoise/aerich): Migration tool for Tortoise
     ORM (Example)
 - [cuid](https://github.com/ericelliott/cuid): Collision-resistant ids

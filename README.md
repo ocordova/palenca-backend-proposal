@@ -2,7 +2,7 @@
 
 This proposal considers:
 
-- Remove mix of database and business rules
+- Remove mix of database, business rules, seralize data, responses, etc
 - Remove dependency of database models
 - Same error response schemas
 - API documentation that always matches the code
